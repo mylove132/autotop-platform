@@ -1,0 +1,33 @@
+.main-contaner {
+    height: 100%;
+    margin: 20px;
+    .action-container {
+        padding: 20px 0 0;
+        border-bottom: 1px solid #CCC;
+        .search-box {
+            margin: 0 20px;
+        }
+        .grey {
+            background: grey;
+        }
+    }
+    .table-container {
+        max-height: calc(100% - 260px);
+        overflow: auto;
+        table {
+            width: 100%;
+        }
+        .mat-header-cell, .mat-cell {
+            min-width: 150px;
+            padding: 10px 20px;
+        }
+        .mat-column-actions {
+            width: 40px;
+            max-width: 40px;
+            min-width: 40px;
+        }
+        .mat-table-sticky:last-child {
+            border-left: 1px solid #e0e0e0;
+        }
+    }
+}

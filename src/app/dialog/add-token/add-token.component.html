@@ -1,0 +1,53 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="登录用户名" type="text" formControlName="loginname">
+        </mat-form-field>
+        <mat-form-field class="half-width">
+            <mat-select placeholder="环境" formControlName="env">
+                <mat-option *ngFor="let item of envList" [value]="item.id">
+                    {{item.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+            <mat-select placeholder="平台" formControlName="platform">
+                <mat-option *ngFor="let item of platformList" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="登录URL" type="text" formControlName="loginurl">
+        </mat-form-field>
+        <mat-table [dataSource]="dataSource" formArrayName="body">
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>参数</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="key">
+                <mat-header-cell *matHeaderCellDef>键</mat-header-cell>
+                <mat-cell *matCellDef="let element, let idx = index" [formGroupName]="idx">
+                    <mat-form-field floatLabel="never">
+                        <input matInput placeholder="key" type="text" formControlName="key">
+                    </mat-form-field>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="value">
+                <mat-header-cell *matHeaderCellDef>值</mat-header-cell>
+                <mat-cell *matCellDef="let element, let idx = index" [formGroupName]="idx">
+                    <mat-form-field floatLabel="never">
+                        <input matInput placeholder="value" type="text" formControlName="value">
+                    </mat-form-field>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid" *ngIf="data.type !== 'view'">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>

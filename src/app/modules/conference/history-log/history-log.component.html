@@ -1,0 +1,58 @@
+<div class="main-contaner">
+    <!-- 操作项 -->
+    <div class="action-container">
+        <mat-form-field class="search-box" >
+            <input matInput placeholder="请输入接口path关键词" [(ngModel)]="keyPath" (keyup.enter)="search()">
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="search()">搜索</button>
+    </div>
+    <!-- 数据表格 -->
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource">
+            <!-- 接口名称 -->
+            <ng-container matColumnDef="caseName">
+                <th mat-header-cell *matHeaderCellDef>接口名称</th>
+                <td mat-cell *matCellDef="let element">{{element.case?.name}}</td>
+            </ng-container>
+            <!-- 接口Url -->
+            <ng-container matColumnDef="casePath">
+                <th mat-header-cell *matHeaderCellDef>接口Url</th>
+                <td mat-cell *matCellDef="let element">{{element.case?.path}}</td>
+            </ng-container>
+            <!-- 请求类型 -->
+            <ng-container matColumnDef="caseType">
+                <th mat-header-cell *matHeaderCellDef>请求类型</th>
+                <td mat-cell *matCellDef="let element">{{element.case?.type | appHttpType}}</td>
+            </ng-container>
+            <!-- 接口创建时间 -->
+            <ng-container matColumnDef="caseCreateDate">
+                <th mat-header-cell *matHeaderCellDef>接口创建时间</th>
+                <td mat-cell *matCellDef="let element">{{element.case?.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</td>
+            </ng-container>
+            <!-- 执行者 -->
+            <ng-container matColumnDef="logExecutor">
+                <th mat-header-cell *matHeaderCellDef>执行者</th>
+                <td mat-cell *matCellDef="let element">{{element.executor | appExecutor}}</td>
+            </ng-container>
+            <!-- 历史记录创建时间 -->
+            <ng-container matColumnDef="logCreateDate">
+                <th mat-header-cell *matHeaderCellDef>历史记录创建时间</th>
+                <td mat-cell *matCellDef="let element">{{element.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</td>
+            </ng-container>
+            <!-- 操作项 -->
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>操作</th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- 更多 -->
+                    <button mat-icon-button matTooltip="更多" (click)="handleMore(row)">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <mat-paginator (page)="changePage($event)" [pageIndex]="page.pageNumber" [pageSize]="page.size" [pageSizeOptions]="[5, 10, 20, 50]" [length]="page.totalElements" showFirstLastButtons></mat-paginator>
+</div>

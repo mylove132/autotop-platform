@@ -1,0 +1,19 @@
+@mixin request-table-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+
+    .right {
+        .content {
+            .btn-contain {
+                background: mat-color($background, "card");
+            }
+            .group-title {
+                @if $is-dark {
+                    color: mat-color($foreground, text, 0.8) !important;
+                }
+            }
+        }
+    }
+
+}

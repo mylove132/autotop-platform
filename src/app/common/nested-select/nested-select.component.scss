@@ -1,0 +1,21 @@
+.basic-container {
+  padding: 0 0 10px;
+  .nested-select-container {
+      position: relative;
+      margin-right: 10px;
+      .nested-select {
+        display: inline-block;
+        z-index: 1;
+        padding: 0.6375em 0;
+      }
+      .select-container {
+        position: absolute;
+        top: -16px;
+        left: 0;
+        z-index: 0;
+      }
+      .root-node {
+          opacity: 0;
+      }
+  }
+}

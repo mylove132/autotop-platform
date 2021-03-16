@@ -1,0 +1,46 @@
+.config-contaner {
+    margin: 20px;
+    height: 100%;
+    .action-container {
+        padding: 20px 0;
+        border-bottom: 1px solid #CCC;
+        .add {
+            margin: 0 20px 0 10px;
+        }
+        .grey {
+            background: grey;
+        }
+    }
+    .table-container {
+        position: relative;
+        max-height: calc(100% - 220px);
+        overflow: auto;
+        table {
+            width: 100%;
+            .action {
+                color: #488aff;
+                cursor: pointer;
+            }
+        }
+        .mat-header-cell, .mat-cell {
+            min-width: 150px;
+            padding: 10px 20px;
+        }
+        .mat-column-actions {
+            width: 40px;
+            max-width: 20px;
+            min-width: 20px;
+        }
+    }
+    .pagination-container {
+        position: relative;
+        .tip {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 20px;
+            font-size: 12px;
+            color: #f30606;
+        }
+    }
+}

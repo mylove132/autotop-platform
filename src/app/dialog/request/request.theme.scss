@@ -1,0 +1,8 @@
+@mixin request-theme($theme) {
+    $background: map-get($theme, background);
+
+    // 场景模糊检索吸顶容器背景色
+    .fuzzy-searchBox {
+        background: mat-color($background, 'card');
+    }
+}

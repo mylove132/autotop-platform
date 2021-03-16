@@ -1,0 +1,70 @@
+:host {
+    // 检索框
+    .search-container {
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        .search-icon {
+            position: absolute;
+            left: 34px;
+            top: 16px;
+        }
+        .search-box {
+            height: 34px;
+            border-radius: 50px;
+            padding: 0 20px 0 46px;
+            width: 100%;
+            margin: 0 20px;
+            border: 1px solid #ccc;
+        }
+        input:hover {
+            background: #eee;
+        }
+        input:focus {
+            background: #fff;
+        }
+    }
+    // 产品线目录树
+    ::ng-deep {
+        mat-tree {
+            height: calc(100vh - 120px);
+            overflow: auto;
+        }
+        mat-tree-node {
+            .catalog-item {
+                cursor: pointer;
+                padding: 5px 10px;
+                border-radius: 5px;
+                &.active {
+                    background: rgba(173, 163, 156, 0.5);
+                }
+                &:hover {
+                    background: rgba(173, 163, 156, 0.5);
+                }
+            }
+        }
+    }
+    // 开始拖拽
+    .drag-start {
+        opacity: 0.5;
+        border: #ff525b dashed 2px;
+    }
+    // 放置在元素上边[目前后端接口暂不支持，先隐藏]
+    .drop-above {
+        // border-top: 10px solid #ff525b;
+        // margin-top: -10px;
+        border-top: transparent;
+    }
+    // 放置在元素下边[目前后端接口暂不支持，先隐藏]
+    .drop-below {
+        // border-bottom: 10px solid #ff525b;
+        // margin-bottom: -10px;
+        border-bottom: transparent;
+    }
+    // 放置在元素里边
+    .drop-center {
+        color: #FFF;
+        background: #ff525b !important;
+    }
+}

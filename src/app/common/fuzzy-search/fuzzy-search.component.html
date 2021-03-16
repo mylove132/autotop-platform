@@ -1,0 +1,16 @@
+<form [formGroup]='fuzzyForm'>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="关键字" [matAutocomplete]="auto" formControlName='fuzzyInput'>
+    </mat-form-field>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="optionSelected($event, inputmode)">
+        <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let item of filteredCase" [value]="item" [title]="item?.path">
+                <span>{{ item?.name }}</span>
+                <span style="margin-left: 20px;">{{ item?.path }}</span>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</form>

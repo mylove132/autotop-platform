@@ -1,0 +1,80 @@
+<div class="main">
+    <div class="card-container">
+        <div class="card" (click)="handleFilter('')">
+            <span>总数</span>
+            <span class="count">{{totalCount}}</span>
+            <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+        </div>
+        <div class="card" (click)="handleFilter('true')">
+            <span>成功</span>
+            <span class="count">{{successCount}}</span>
+            <mat-progress-bar class="success" mode="determinate" [value]="successRate"></mat-progress-bar>
+        </div>
+        <div class="card" (click)="handleFilter('false')">
+            <span>失败</span>
+            <span class="count">{{failCount}}</span>
+            <mat-progress-bar class="error" mode="determinate" [value]="failRate"></mat-progress-bar>
+        </div>
+    </div>
+    <!-- 表格 -->
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+        <!-- 用例名称 -->
+        <ng-container matColumnDef="caseName">
+            <th mat-header-cell *matHeaderCellDef>用例名称</th>
+            <td mat-cell *matCellDef="let element">{{element.cas?.caseName}}</td>
+        </ng-container>
+        <!-- 目录名称 -->
+        <ng-container matColumnDef="catalogName">
+            <th mat-header-cell *matHeaderCellDef>目录名称</th>
+            <td mat-cell *matCellDef="let element">{{element.cas?.catalogName}}</td>
+        </ng-container>
+        <!-- 执行时间 -->
+        <ng-container matColumnDef="startTime">
+            <th mat-header-cell *matHeaderCellDef>执行时间</th>
+            <td mat-cell *matCellDef="let element">{{element.startTime | appDate: 'YYYY-MM-DD HH:mm:ss'}}</td>
+        </ng-container>
+        <!-- 执行耗时 -->
+        <ng-container matColumnDef="rumTime">
+            <th mat-header-cell *matHeaderCellDef>执行耗时</th>
+            <td mat-cell *matCellDef="let element">{{element.rumTime}} ms</td>
+        </ng-container>
+        <!-- 执行状态 -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>执行状态</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon class="check" *ngIf="element.status">check_circle</mat-icon>
+                <mat-icon *ngIf="!element.status" svgIcon="error_circle"></mat-icon>
+            </td>
+        </ng-container>
+        <!-- 扩展 -->
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+              <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="element-detail-container">
+                    <div class="base_title">
+                        <span class="label">更多信息</span>
+                    </div>
+                    <div class="base_content">
+                        <p>判断条件：<span>{{element.assert?.relation}}</span></p>
+                        <p>期望结果：<span>{{element.assert?.expect}}</span></p>
+                        <p>实际结果：<span>{{element.assert?.actual}}</span></p>
+                        <p>断言结果：<span>{{element.assert?.result ? '成功' : '失败'}}</span></p>
+                        <p>错误信息：<span>{{element.errMsg}}</span></p>
+                        <p>返回结果：<span>（如下）</span></p>
+                    </div>
+                    <json-editor [options]="options" [data]="element.result"></json-editor>
+                </div> 
+              </div>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+            mat-row
+            *matRowDef="let element; columns: displayedColumns;"
+            class="element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+</div>

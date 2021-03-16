@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+.gloablLoading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 9999999;
+    mat-spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999999;
+    }
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}

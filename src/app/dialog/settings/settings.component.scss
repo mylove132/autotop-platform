@@ -1,0 +1,17 @@
+.theme-container {
+    display: flex;
+    align-items: center;
+    mat-icon {
+        // color: #03a9f4;
+        margin-right: 10px;
+    }
+}
+.auto-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    mat-icon {
+        // color: #03a9f4;
+        margin-right: 10px;
+    }
+}

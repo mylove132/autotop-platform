@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content>
+        <div class="main-container">
+            <!-- 基本信息配置 -->
+            <div class="base-container">
+                <div class="help" [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <mat-slide-toggle [(ngModel)]="toggleEditJmeter" [ngModelOptions]="{standalone: true}">编辑jmeter脚本</mat-slide-toggle>
+                    <mat-icon [appTooltip]="helpTemp" contentType="template">help</mat-icon>
+                    <ng-template #helpTemp>
+                        <div>
+                            <p style="margin: 0;font-weight: bold;">开启之后可以对jmeter脚本文件进行编辑</p>
+                        </div>
+                    </ng-template>
+                </div>
+                <mat-form-field [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <input matInput placeholder="压测脚本名称" type="text" formControlName="name">
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <input matInput placeholder="压测总线程数" type="number" formControlName="thread">
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <input matInput placeholder="压测总时长（s）" type="number" formControlName="time">
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <input matInput placeholder="压测循环次数" type="number" formControlName="cycle">
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'full-width': !toggleEditJmeter}">
+                    <input matInput placeholder="分布式远程IP地址（可选）" type="text" formControlName="remote">
+                </mat-form-field>
+            </div>
+            <!-- Jmeter脚本数据配置 -->
+            <div class="script-container" [hidden]="!toggleEditJmeter">
+                <mat-accordion>
+                    <ng-container formArrayName="aux">
+                        <mat-expansion-panel [expanded]="step === i" (opened)="setStep(i)" hideToggle *ngFor="let creds of form.get('aux')?.controls; let i = index" [formGroupName]="i">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <i class="badge">{{ i + 1}}</i>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{creds.get('ThreadGroup').value.testname}}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="main-thread" formGroupName="ThreadGroup">
+                                    <div class="base_title">
+                                        <span class="label">主线程</span>
+                                    </div>
+                                    <div class="base_content">
+                                        <mat-form-field>
+                                            <mat-label>名称</mat-label>
+                                            <input matInput formControlName="testname">
+                                        </mat-form-field>
+                                        <mat-slide-toggle formControlName="enabled">是否启动</mat-slide-toggle>
+                                    </div>
+                                </div>
+                                <div class="network-request" formArrayName="HTTPSamplerProxy">
+                                    <div class="base_title">
+                                        <span class="label">http请求</span>
+                                    </div>
+                                    <div *ngFor="let creds of creds.get('HTTPSamplerProxy')?.controls; let idx = index" [formGroupName]="idx">
+                                        <div class="base_content">
+                                            <i class="badge">{{(i + 1) + '.' + (idx + 1)}}</i>
+                                            <mat-form-field>
+                                                <mat-label>名称</mat-label>
+                                                <input matInput formControlName="testname">
+                                            </mat-form-field>
+                                            <mat-slide-toggle formControlName="enabled">是否启动</mat-slide-toggle>
+                                        </div>
+                                    </div>
+                                </div>
+                                <mat-action-row>
+                                    <button mat-button color="warn" (click)="prevStep($event)" *ngIf="i != 0">上一条</button>
+                                    <button mat-button color="primary" (click)="nextStep($event)">下一条</button>
+                                </mat-action-row>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+        <!-- <ng-container *ngIf="toggleEditJmeter">
+            <button mat-raised-button type="button" (click)="handleSync($event)" color="primary" [disabled]="!form.valid" style="margin-left: 40%;">同步</button>
+            <span>（修改的脚本内容需要同步到数据库噢～）</span>
+        </ng-container> -->
+    </div>
+</form>

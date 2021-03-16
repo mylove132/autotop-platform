@@ -1,0 +1,9 @@
+
+<div class="confirm">
+  <p>确定删除所选<span>{{data.field}}</span>么?</p>
+  <span [ngClass]="{'visible': !data.msg}" class="tip">{{data.msg}}</span>
+  <div class="action_buttons">
+    <button mat-raised-button (click)="cancel()">取消</button>
+    <button mat-raised-button color="warn" appDebounceClick (debounceClick)="delete()">删除</button>
+  </div>
+</div>

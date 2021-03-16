@@ -1,0 +1,29 @@
+<div class="main">
+    <mat-form-field>
+        <mat-label>平台</mat-label>
+        <mat-select (selectionChange)="onPlatformIdChange()" [(ngModel)]="selectToken.platformId" [disabled]="isDisabled" [errorStateMatcher]="errorMatcher">
+            <mat-option *ngFor="let item of platform$ | async" [value]="item.id">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>平台不能为空～</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>环境</mat-label>
+        <mat-select (selectionChange)="onEnvChange()" [(ngModel)]="selectToken.envId" [disabled]="isDisabled" [errorStateMatcher]="errorMatcher">
+            <mat-option *ngFor="let item of env$ | async" [value]="item.id">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>环境不能为空～</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>用户</mat-label>
+        <mat-select (selectionChange)="onUserChange()" [(ngModel)]="selectToken.tokenId" [disabled]="isDisabled" [errorStateMatcher]="errorMatcher">
+            <mat-option *ngFor="let item of user$ | async" [value]="item.tokenId">
+                {{item.username}}
+            </mat-option>
+        </mat-select>
+        <mat-error>用户不能为空～</mat-error>
+    </mat-form-field>
+</div>

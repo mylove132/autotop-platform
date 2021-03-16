@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>设置</h1>
+<div mat-dialog-content>
+    <div class="theme-container">
+        <mat-icon color="primary" svgIcon="paint-brush"></mat-icon>
+        <mat-form-field>
+            <mat-label>颜色主题</mat-label>
+            <mat-select [value]="selected" (selectionChange)="switchTheme($event)">
+                <mat-option *ngFor="let item of themeList" [value]="item.value">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="auto-container">
+        <div>
+            <mat-icon color="primary" svgIcon="lightbulb"></mat-icon>
+            <span>自动深色模式（从 21:00 到 7:00）</span>
+        </div>
+        <mat-slide-toggle [(ngModel)]="checked" (change)="autoNightModeToggle($event)"></mat-slide-toggle>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+@mixin performance-test-theme($theme) {
+    $primary: map-get($theme, primary);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    .mat-button-toggle {
+        background-color: mat-color($background, "card");
+        color: mat-color($foreground, text);
+    }
+
+    .mat-button-toggle-checked {
+        background-color: mat-color($primary);
+        color: mat-color($primary, default-contrast) !important;
+    }
+
+}

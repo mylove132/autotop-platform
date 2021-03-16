@@ -1,0 +1,82 @@
+<h1 mat-dialog-title>历史记录详情</h1>
+<div mat-dialog-content>
+  <p class="container">
+    <span class="title">历史记录ID：</span>
+    <span class="desc">{{detail.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">历史记录创建时间：</span>
+    <span class="desc">{{detail.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">执行者：</span>
+    <span class="desc">{{detail.executor | appExecutor}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口执行结果：</span>
+    <json-editor class="desc" [options]="options" [data]="detail.result | appObject"></json-editor>
+  </p>
+  <p class="container">
+    <span class="title">接口执行开始时间：</span>
+    <span class="desc">{{detail.startTime | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口执行结束时间：</span>
+    <span class="desc">{{detail.endTime | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口ID：</span>
+    <span class="desc">{{detail.case?.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口名称：</span>
+    <span class="desc">{{detail.case?.name}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口Header：</span>
+    <json-editor class="desc" [options]="options" [data]="detail.case?.header | appObject"></json-editor>
+  </p>
+  <p class="container">
+    <span class="title">接口参数：</span>
+    <json-editor class="desc" [options]="options" [data]="detail.case?.param | appObject"></json-editor>
+  </p>
+  <p class="container">
+    <span class="title">接口参数类型：</span>
+    <span class="desc">{{detail.case?.paramType | appParamType}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口Url：</span>
+    <span class="desc">{{detail.case?.path}}</span>
+  </p>
+  <p class="container">
+    <span class="title">endpoint：</span>
+    <span class="desc">{{detail.case?.endpoint}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求类型：</span>
+    <span class="desc">{{detail.case?.type | appHttpType}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口创建时间：</span>
+    <span class="desc">{{detail.case?.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口更新时间：</span>
+    <span class="desc">{{detail.case?.updateDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">断言结果：</span>
+    <span class="desc">{{detail.case?.assertText}}</span>
+  </p>
+  <p class="container">
+    <span class="title">断言表达式：</span>
+    <span class="desc">{{detail.case?.assertKey}}</span>
+  </p>
+  <p class="container">
+    <span class="title">接口是否需要token：</span>
+    <span class="desc">{{detail.case?.isNeedToken}}</span>
+  </p>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close type="button">关闭</button>
+</div>

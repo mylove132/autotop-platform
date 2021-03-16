@@ -1,0 +1,15 @@
+<div [ngSwitch]="loadStatus" class="wrapper" [ngClass]="{'loading_wrapper': loadStatus === 0, 'login_base': loginBase}" [ngStyle]="calcHeight()">
+    <div class="loading" *ngSwitchCase="loadStatusEnum.Loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="load-fail" *ngSwitchCase="loadStatusEnum.LoadError" >
+        <div>{{errorInfo}}</div>
+    </div>
+    <div class="empty" *ngSwitchCase="loadStatusEnum.LoadEmpty" >
+        <img src="../../../../assets/images/default-empty.png" alt="">
+        <div class="empty-info">{{emptyInfo}}</div>
+    </div>
+    <div class="datas" *ngSwitchCase="loadStatusEnum.LoadData" >
+        <ng-content select='.contentDom'></ng-content>
+    </div>
+</div>

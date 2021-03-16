@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    .title {
+        flex: 0 0 20%;
+    }
+    .desc {
+        flex: 0 0 80%;
+    }
+}

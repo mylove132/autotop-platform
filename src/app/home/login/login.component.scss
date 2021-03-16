@@ -1,0 +1,114 @@
+.placeholder {
+    // background-color: #f6f6f6;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    img {
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 1s linear;
+    }
+    .loaded {
+        opacity: 1;
+    }
+    .img-small {
+        filter: blur(50px);
+        transform: scale(1);
+    }
+}
+.content{
+    // background: url('../../../assets/images/bg.png') no-repeat;
+    // background-size: cover;
+    height: 100%;
+    .login_wrap{
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 430px;
+        height: 430px;
+        // background: #FFFFFF;
+        box-shadow: 0 4px 20px 0 rgba(37,38,94,0.20);
+        border-radius: 8px;
+        padding: 60px 58px 0 58px;
+        h3{
+            font-family: PingFangSC-Semibold;
+            font-size: 22px;
+            color: #4A4A4A;
+            text-align: center;
+            margin: 0;
+        }
+        form{
+            margin-top: 44px;
+            .icon_wrap{
+                padding: 0;
+                padding-top: 20px;
+                min-height: 40px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: center;
+                position: relative;
+                .icon{
+                    width: 15px;
+                    height: 18px;
+                    position: absolute;
+                    top: calc(50% + 4px);
+                    transform: translate(0, -50%);
+                }
+                .user{
+                    height: 16px;
+                }
+                .mat-form-field{
+                    width: 100%;
+                    text-indent: 15px;
+                    ::ng-deep .mat-form-field-flex{
+                        padding-bottom: 5px;
+                    }
+                    ::ng-deep .mat-form-field-label{
+                        text-indent: 19px;
+                    }
+                }
+            }
+            p{
+                margin: 0 0 20px 0;
+                margin-left: 30px;
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #FF6700;
+                visibility: hidden;
+                height: 20px;
+            }
+            .show{
+                visibility: visible;
+            }
+            button{
+                width: 100%;
+                background: #7357FF;
+                height: 44px;
+                border-radius: 30px;
+                font-family: PingFangSC-Regular;
+                font-size: 18px;
+                color: #FFFFFF;
+                text-align: center;
+                border: none;
+            }
+            .invalid{
+                background: #999999; 
+            }
+        }
+    }
+    .logo{
+        position: absolute;
+        width: 140px;
+        padding: 50px;
+        top: 0;
+    }
+}

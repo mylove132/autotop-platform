@@ -1,0 +1,28 @@
+
+.visibility {
+  visibility: hidden;
+}
+.single {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: calc(100% + 32px);
+  border-bottom: 1px solid #cccccc;
+  background: white;
+  z-index: 100;
+}
+
+.multiple {
+  width: calc(100% + 64px);
+}
+
+mat-icon {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.search-input {
+  padding: 16px;
+  box-sizing: border-box;
+}

@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <mat-form-field class="full-width">
+        <mat-select placeholder="部署环境" formControlName="env">
+            <mat-option *ngFor="let item of envList" [value]="item.id">
+                {{item.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div mat-dialog-content>
+        <div class="fuzzy-container half-width">
+            <div class="help">
+                <mat-slide-toggle [(ngModel)]="nestedSelectDisabled" [ngModelOptions]="{standalone: true}">按目录检索</mat-slide-toggle>
+                <mat-icon [appTooltip]="helpTemp" contentType="template">help</mat-icon>
+                <ng-template #helpTemp>
+                    <div>
+                        <p style="margin: 0;font-weight: bold;">选择目录之后检索用例则按目录精确查找</p>
+                    </div>
+                </ng-template>
+            </div>
+            <app-nested-select
+                *ngIf="nestedSelectNodes.length > 0"
+                [nodes]="nestedSelectNodes"
+                [options]="nestedSelectOptions"
+                [disabled]="!nestedSelectDisabled"
+                (leafSelectedChange)="handleLeafSelectedChange($event)">
+            </app-nested-select>
+        </div>
+        <mat-form-field class="full-width">
+            <mat-select multiple="multiple" placeholder="用例" class="push-right" formControlName="caseIds">
+                <app-mat-select-search [formControl]="caseSearch" [selectedOptions]="caseSelectedOptions"></app-mat-select-search>
+                <cdk-virtual-scroll-viewport itemSize="48" [style.height.px]="5 * 48" minBufferPx="200" maxBufferPx="400">
+                    <mat-option *cdkVirtualFor="let item of caseList" [value]="item?.id" [title]="item?.path">{{item?.name}}</mat-option>
+                </cdk-virtual-scroll-viewport>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测名称" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测总线程数" type="number" formControlName="thread">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测总时长（s）" type="number" formControlName="time">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测循环次数" type="number" formControlName="cycle">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid" *ngIf="data.type !== 'view'">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>

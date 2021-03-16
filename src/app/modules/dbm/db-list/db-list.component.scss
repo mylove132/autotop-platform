@@ -1,0 +1,215 @@
+.container {
+    overflow: auto;
+    height: calc(100% - 60px);
+    // 空页面
+    .noDataDisplay {
+        width: 100%;
+        height: 40vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #919191;
+        font-size: 13px;
+        flex-direction: column;
+        background: #ffffff;
+        img {
+            width: 86px;
+        }
+        p {
+            font-size: 13px;
+            margin-top: 10px;
+        }
+    }
+    .db-main {
+        padding: 20px 20px 0 20px;
+        margin: 20px 20px 0;
+        display: flex;
+        flex-wrap: wrap;
+        background: #ffffff;
+        max-height: 420px;
+        overflow: auto;
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        mat-card {
+            transition: all 0.4s ease;
+            backface-visibility: hidden;
+            background: rgba(176, 103, 255, 0.1);
+            width: 210px;
+            margin: 0 15px 15px 0;
+            cursor: pointer;
+            .checkmark {
+                position: absolute;
+                right: 0;
+                top: 0;
+                .check {
+                    position: absolute;
+                    font-size: 14px;
+                    width: 14px;
+                    height: 14px;
+                    right: 0;
+                    color: #fff;
+                }
+            }
+            mat-card-subtitle {
+                display: flex;
+                align-items: center;
+                mat-icon {
+                    font-size: 16px;
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+            .content {
+                position: relative;
+                .base {
+                    display: flex;
+                    align-items: center;
+                    mat-icon {
+                        font-size: 16px;
+                        width: 16px;
+                        height: 16px;
+                        margin-right: 4px;
+                    }
+                    .desc {
+                        color: rgba(0, 0, 0, 0.54);
+                    }
+                }
+            }
+        }
+        mat-card:hover {
+            transform: translateY(-5px);
+        }
+        mat-card:hover .actions {
+            display: flex;
+            transition-delay: 25ms;
+        }
+        mat-card:hover .actions {
+            button {
+                transform: translate3d(-30, 0, 0);
+            }
+        }
+        mat-card:hover:before {
+            opacity: 1;
+            transform: translateY(5px);
+        }
+        mat-card:before {
+            position: absolute;
+            top: 100%;
+            left: 5%;
+            z-index: -1;
+            width: 90%;
+            height: 5px;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0, transparent 80%);
+            content: "";
+            opacity: 0;
+            transition-duration: 0.3s;
+            transition-property: transform, opacity;
+            pointer-events: none;
+        }
+        .actions {
+            display: none;
+            position: absolute;
+            right: 0;
+            flex-direction: column;
+            top: 0;
+            height: 100%;
+            justify-content: center;
+            transition: transform 0.3s;
+            background: rgba(0, 0, 0, 0.38);
+            animation-name: fadeInRight;
+            animation-duration: 1.5s !important;
+            button:first-child {
+                animation-name: fadeInRight;
+                transition-delay: 25ms;
+            }
+            button:nth-child(2) {
+                animation-name: fadeInRight;
+                transition-delay: 50ms;
+            }
+        }
+    }
+    .mgAuto {
+        margin: 0 20px;
+    }
+    .mgBottom {
+        margin-bottom: 20px;
+    }
+    .sql-container {
+        padding-top: 40px;
+        table {
+            width: 100%;
+        }
+        .mat-header-cell,
+        .mat-cell {
+            min-width: 150px;
+            padding: 10px 20px;
+        }
+        .mat-column-select {
+            width: 30px;
+            max-width: 30px;
+            min-width: 30px;
+        }
+        .mat-column-sql {
+            min-width: 400px;
+        }
+        .mat-column-actions {
+            width: 150px;
+            min-width: 150px;
+            max-width: 150px;
+        }
+        .mat-table-sticky:first-child {
+            border-right: 1px solid #e0e0e0;
+        }
+        .mat-table-sticky:last-child {
+            border-left: 1px solid #e0e0e0;
+        }
+        .batch-delete {
+            margin-left: 15px;
+        }
+    }
+    .edit-container {
+        padding: 20px;
+        background: #ffffff;
+        form {
+            margin: 0 auto;
+            width: 70%;
+            mat-form-field {
+                width: 100%;
+            }
+            .check-container {
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                button {
+                    margin-right: 10px;
+                }
+                .check {
+                    color: #68e534;
+                    font-size: 28px;
+                    width: 28px;
+                    height: 28px;
+                }
+            }
+            .submit-container {
+                display: flex;
+                flex-direction: row-reverse;
+                padding: 20px;
+                .close {
+                    margin-left: 10px;;
+                }
+            }
+        }
+        .sql-edit {
+            position: relative;
+        }
+    }
+}
+
+.fab-button {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 998;
+}

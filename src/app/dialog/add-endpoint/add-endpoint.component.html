@@ -1,0 +1,31 @@
+<div class="main-container">
+    <div class="header">
+        <p>添加endpoint</p>
+        <mat-icon class="closeIcon"(click)="closeModal()">close</mat-icon>
+    </div>
+    <div class="content">
+        <div class="form-item">
+            <mat-label class="hint">名称：</mat-label>
+            <input type="text" placeholder="请输入endpoint名称" [(ngModel)]="name"/>
+        </div>
+        <div class="form-item">
+            <mat-label class="hint">地址：</mat-label>
+            <input type="text" placeholder="请输入endpoint前缀地址" [(ngModel)]="endpoint"/>
+        </div>
+        <div class="form-item" style="display: flex;">
+            <mat-label class="hint">环境：</mat-label>
+            <div class="checkbox-container">
+                <mat-checkbox (change)="onChange($event, item)" *ngFor="let item of envList">{{item.name}}</mat-checkbox>
+            </div>
+        </div>
+    </div>
+  
+    <div class="submit_wrap">
+        <button class="actionButton ensure cursor" [disabled]="!name || !endpoint || envs?.length == 0" [ngClass]="{'grey': !name || !endpoint || envs?.length == 0}" appDebounceClick (debounceClick)="save()">
+            保存
+        </button>
+        <button class="actionButton cancel cursor" (click)="closeModal()">
+            取消
+        </button>
+    </div>
+</div>

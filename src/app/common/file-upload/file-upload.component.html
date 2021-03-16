@@ -1,0 +1,48 @@
+<!-- 点击  -->
+<button mat-flat-button color="warn" (click)="onClick($event)" *ngIf="mode == 'click'">
+    <mat-icon>file_upload</mat-icon>
+    {{text}}
+</button>
+
+<br />
+<!-- 点击+拖拽 -->
+<div class="upload-container"
+     *ngIf="mode == 'drag'"
+     #uploadzone
+     appFileUpload
+     [class.hovering]="uploadzone.isHovering"
+     (hovered)="uploadzone.isHovering = $event"
+     (dropped)="onDrop($event)"
+     (click)="onClick($event)">
+  <p class="icon"><mat-icon>cloud_upload</mat-icon></p>
+  <p class="title">单击或将文件拖到该区域以上传</p>
+  <p class="desc" *ngIf="multiple">支持单个或批量上传</p>
+</div>
+
+<br />
+<!-- 上传 -->
+<ul>
+    <li *ngFor="let file of files" [@fadeInOut]="file.state">
+        <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+        <span class="file-label">
+            {{file.data.name}}
+            <a title="重试" (click)="retryFile(file)" *ngIf="file.canRetry">
+                <mat-icon>refresh</mat-icon>
+            </a>
+            <a title="取消" (click)="cancelFile(file)" *ngIf="file.canCancel">
+                <mat-icon>cancel</mat-icon>
+            </a>
+        </span>
+    </li>
+</ul>
+
+<!-- 点击模式下的Trigger -->
+<input type="file" id="fileUpload" name="fileUpload" [multiple]="multiple" accept="{{accept}}" style="display:none;" />
+
+<!-- 上传成功的文件列表 -->
+<ul *ngIf="displayAttach">
+    <li class="attach-container" *ngFor="let attach of attachs">
+        <mat-icon>attach_file</mat-icon>
+        <span class="attach-name">{{attach.data.name}}</span>
+    </li>
+</ul>

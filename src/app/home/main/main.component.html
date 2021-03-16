@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="main">
+    <!-- 柱状图 -->
+    <mat-card>
+      <mat-card-content>
+        <div echarts class="chart" [options]="barOptions" [theme]="theme">
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- 接口饼图 -->
+    <mat-card>
+      <mat-card-content>
+        <div echarts class="chart" [options]="intfPieOptions" [theme]="theme">
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- 定时任务柱状图 -->
+    <mat-card>
+      <mat-card-content>
+        <div echarts class="chart" [options]="timedTaskBarOptions" [theme]="theme">
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- 用例饼图 -->
+    <mat-card>
+      <mat-card-content>
+        <div echarts class="chart" [options]="casePieOptions" [theme]="theme">
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- 接口执行占比饼图 -->
+    <mat-card>
+      <mat-card-content>
+        <div echarts class="chart" [options]="intfRatioOptions" [theme]="theme">
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

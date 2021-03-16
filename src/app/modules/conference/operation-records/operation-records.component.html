@@ -1,0 +1,88 @@
+<div class="main-container">
+    <div class="search-container">
+        <!-- 检索 -->
+        <div>
+            <mat-form-field class="mgRight">
+                <mat-select placeholder="用户" [value]="userId" (selectionChange)="search($event, 'user')">
+                    <mat-option *ngFor="let item of userList" [value]="item.id">
+                        {{item.username }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="mgRight">
+                <mat-select placeholder="操作模块" [value]="operateModule" (selectionChange)="search($event, 'module')">
+                    <mat-option *ngFor="let item of operationModuleList" [value]="item.id">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="mgRight">
+                <mat-select placeholder="操作类型" [value]="operateType" (selectionChange)="search($event, 'type')">
+                    <mat-option *ngFor="let item of operateTypeList" [value]="item.id">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="search-box" >
+                <input matInput placeholder="请求参数" [(ngModel)]="keyword" (keyup.enter)="search($event, 'keyword')">
+            </mat-form-field>
+            <button class="mgRight" mat-raised-button color="primary" (click)="rest()">重置</button>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource">
+            <!-- 操作模块 -->
+            <ng-container matColumnDef="operateModule">
+                <th mat-header-cell *matHeaderCellDef>操作模块</th>
+                <td mat-cell *matCellDef="let row">{{row.operateModule | appOperationModule}}</td>
+            </ng-container>
+            <!-- 操作类型 -->
+            <ng-container matColumnDef="operateType">
+                <th mat-header-cell *matHeaderCellDef>操作类型</th>
+                <td mat-cell *matCellDef="let row">{{row.operateType | appOperationType}}</td>
+            </ng-container>
+            <!-- 请求路径 -->
+            <ng-container matColumnDef="operateUri">
+                <th mat-header-cell *matHeaderCellDef>请求路径</th>
+                <td mat-cell *matCellDef="let row">{{row.operateUri}}</td>
+            </ng-container>
+            <!-- 请求者IP -->
+            <ng-container matColumnDef="operateIp">
+                <th mat-header-cell *matHeaderCellDef>请求者IP</th>
+                <td mat-cell *matCellDef="let row">{{row.operateIp}}</td>
+            </ng-container>
+            <!-- 请求者用户名 -->
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>请求者用户名</th>
+                <td mat-cell *matCellDef="let row">{{row.user?.username}}</td>
+            </ng-container>
+            <!-- 创建时间 -->
+            <ng-container matColumnDef="createDate">
+                <th mat-header-cell *matHeaderCellDef>创建时间</th>
+                <td mat-cell *matCellDef="let row">{{row.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</td>
+            </ng-container>
+            <!-- 操作项 -->
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>操作</th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- 更多 -->
+                    <button mat-icon-button matTooltip="更多" (click)="handleMore(row)">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <mat-paginator
+        showFirstLastButtons
+        [length]="page.totalElements"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        [pageSize]="page.size"
+        [pageIndex]="page.pageNumber"
+        (page)="changePage($event)">
+    </mat-paginator>
+</div>

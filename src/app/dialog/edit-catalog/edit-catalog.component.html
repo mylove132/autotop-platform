@@ -1,0 +1,35 @@
+<div class="renewal-content">
+    <div class="header">
+        <p>{{ item && item.isUpdate ? '编辑' : '新建' }}目录</p>
+        <mat-icon class="closeIcon"(click)="closeModal()">close</mat-icon>
+    </div>
+    <div class="content">
+        <div class="form-item">
+            <mat-label>名称：</mat-label>
+            <input type="text" placeholder="请输入名称" [(ngModel)]="name" />
+        </div>
+        <div class="form-item">
+            <mat-label>是否公开：</mat-label>
+            <mat-checkbox class="example-margin" [(ngModel)]="isPub"></mat-checkbox>
+        </div>
+        <div class="form-item">
+            <mat-label>父级目录：</mat-label>
+            {{ item.parentName || '无' }}
+        </div>
+        <div class="form-item">
+            <mat-label>归属平台：</mat-label>
+            <mat-select flex placeholder="归属平台" [(ngModel)]="platform">
+                <mat-option *ngFor="let item of platformList" [value]="item[0]">{{ item[1] }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+  
+    <div class="submit_wrap">
+        <button class="actionButton ensure cursor" [disabled]="!name" [ngClass]="{'grey': !name}" appDebounceClick (debounceClick)="save()">
+            保存
+        </button>
+        <button class="actionButton cancel cursor" (click)="closeModal()">
+            取消
+        </button>
+    </div>
+</div>

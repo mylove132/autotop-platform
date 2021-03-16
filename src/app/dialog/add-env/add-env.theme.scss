@@ -1,0 +1,33 @@
+@import '../../../theme/base';
+
+@mixin add-env-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+
+    .header {
+        @if $is-dark {
+            background-color: mat-color($background, background);
+        } @else {
+            background-color: $main-bg;
+        }
+    }
+    .content {
+        .form-item {
+            input {
+                @if $is-dark {
+                    background: mat-color($background, 'card');
+                    color: mat-color($foreground, text, .8) !important;
+                }
+            }
+        }
+    }
+    .submit_wrap {
+        .cancel {
+            @if $is-dark {
+                background: $btn-dark-bg !important;
+                color: mat-color($foreground, text, .8) !important;
+            }
+        }
+    }
+}

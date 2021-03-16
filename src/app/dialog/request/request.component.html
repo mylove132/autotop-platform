@@ -1,0 +1,215 @@
+<div class="wrap">
+  <!-- 关闭按钮 -->
+  <mat-icon class="close-icon" mat-dialog-close>backspace</mat-icon>
+  <!-- 表单容器 -->
+  <div class="left-container">
+    <!-- 基本参数 -->
+    <div class="block">
+      <div class="tap-wrap" #tapWrap>
+        <mat-form-field class="margin-10">
+          <input [disabled]="disabled || data.data" matInput type="text" class="margin-10" [(ngModel)]="requestName" placeholder="用例名称">
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <input [disabled]="disabled || data.data || data.addData" matInput type="text" class="margin-10" [(ngModel)]="taps[0].url" placeholder="path">
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select [disabled]="disabled" placeholder="运行环境" [(ngModel)]="evn" (selectionChange)='changeEvn($event)'>
+            <mat-option *ngFor="let evn of evns" [value]="evn">
+              {{evn.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select [disabled]="disabled" placeholder="endpoint" [(ngModel)]="endpoint">
+            <mat-option *ngFor="let endpoint of endpoints" [value]="endpoint">
+              {{endpoint.endpoint}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select [disabled]="disabled || data.data || data.addData" placeholder="请求方式" [(ngModel)]="method">
+            <mat-option *ngFor="let method of methods" [value]="method.value">
+              {{method.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select placeholder="断言类型" [(ngModel)]="assert">
+            <mat-option *ngFor="let assertItem of asserts" [value]="assertItem.id">
+              {{assertItem.type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <input matInput type="text" class="margin-10" [(ngModel)]="assertKey" placeholder="断言Key">
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select placeholder="判断依据" [(ngModel)]="assertType">
+            <mat-option *ngFor="let assertItem of assertTypes" [value]="assertItem.id">
+              {{assertItem.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <input matInput type="text" class="margin-10" [(ngModel)]="assertText" placeholder="预计结果">
+        </mat-form-field>
+        <mat-form-field class="margin-10">
+          <mat-select placeholder="用例级别" [(ngModel)]="caseGrade">
+            <mat-option *ngFor="let item of caseGradeList" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox class="margin-10" [(ngModel)]="needSign">签名</mat-checkbox>
+        <mat-checkbox class="margin-10" [(ngModel)]="needDingtalkNotice">失败钉钉通知</mat-checkbox>
+        <mat-checkbox class="margin-10" [(ngModel)]="needToken">token</mat-checkbox>
+        <mat-slide-toggle class="margin-10" [(ngModel)]="needExtension" (change)="extensionSlideToggleChange($event)">启用扩展</mat-slide-toggle>
+        <app-select-token [(ngModel)]="userToken" *ngIf="needToken"></app-select-token>
+        <div class="send" (click)="send()">发送</div>
+        <div class="send save" (click)="close()">保存</div>
+      </div>
+    </div>
+    <!-- 表格参数: Params、Headers、body -->
+    <div class="request-body">
+      <!-- 表头 -->
+      <div class="tap-wrap">
+        <div class="tap" [ngClass]="{'active': currentRequestType == 'params'}" (click)="requestSelect('params')">
+          <span>Params</span>
+          <mat-icon [appTooltip]="helpTemp" contentType="template">help</mat-icon>
+          <ng-template #helpTemp>
+            <div>
+              <p style="margin: 0" ngNonBindable>{{$randomint}} 随机产生一个数字</p>
+              <p style="margin: 0" ngNonBindable>{{$randomint-[a,b]}} 随机产生一个a~b区间数字</p>
+              <p style="margin: 0" ngNonBindable>{{$randomstring}} 随机产生一个6位随机字符串</p>
+              <p style="margin: 0" ngNonBindable>{{$randomstring-n}} 随机产生一个n位随机字符串</p>
+            </div>
+          </ng-template>
+          <span class="spot" *ngIf="currentRequestBody.Params"></span>
+        </div>
+        <div class="tap" [ngClass]="{'active': currentRequestType == 'headers'}" (click)="requestSelect('headers')">
+          <span>Headers</span>
+          <span class="spot" *ngIf="currentRequestBody.Headers"></span>
+        </div>
+        <div class="tap" [ngClass]="{'active': currentRequestType == 'body'}" (click)="requestSelect('body')">
+          <span>Body</span>
+          <span class="spot" *ngIf="currentRequestBody.Body"></span>
+        </div>
+      </div>
+      <!-- 表体 -->
+      <div class="request-content">
+        <div class="table-wrap">
+          <!-- body -->
+          <div class="body-wrap" *ngIf="currentRequestType == 'body'">
+            <mat-radio-group [ngModel]="bodyType" (change)="typeChange($event)">
+              <mat-radio-button value="10">none</mat-radio-button>
+              <mat-radio-button value="20">form-data</mat-radio-button>
+              <mat-radio-button value="30">x-www-urlencoded</mat-radio-button>
+              <mat-radio-button value="40">raw</mat-radio-button>
+            </mat-radio-group>
+            <span style="color: #FF6700;" *ngIf="bodyType=='40'">JSON</span>
+          </div>
+          <div class="table">
+            <div class="header"
+              *ngIf="currentRequestType != 'body'||(currentRequestType == 'body' && bodyType=='20')||(currentRequestType == 'body' && bodyType=='30')">
+              <div class="area"></div>
+              <div class="title">KEY</div>
+              <div class="title">VALUE</div>
+              <div class="title">DESCRIPTION</div>
+            </div>
+            <!-- params -->
+            <div *ngIf="currentRequestType=='params'">
+              <div *ngFor="let item of paramsTableList; let i = index" class="body">
+                <div class="area">
+                  <mat-checkbox name="mip" [ngModel]="item.checked" class="form-check-input"></mat-checkbox>
+                  <mat-icon (click)="del(item, 'params')">close</mat-icon>
+                  <mat-icon *ngIf="i==0" (click)="addParams(i, currentRequestType)">add</mat-icon>
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="key" [(ngModel)]="item.key">
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="value" [(ngModel)]="item.value">
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="description" [(ngModel)]="item.description">
+                </div>
+              </div>
+            </div>
+             <!-- headers -->
+            <div *ngIf="currentRequestType=='headers'">
+              <div *ngFor="let item of headerTableList; let i = index" class="body">
+                <div class="area">
+                  <mat-checkbox name="mip" [ngModel]="item.checked" class="form-check-input"></mat-checkbox>
+                  <mat-icon (click)="del(item, 'headers')">close</mat-icon>
+                  <mat-icon *ngIf="i==0" (click)="addParams(i, currentRequestType)">add</mat-icon>
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="key" [(ngModel)]="item.key">
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="value" [(ngModel)]="item.value">
+                </div>
+                <div class="content">
+                  <input type="text" placeholder="description" [(ngModel)]="item.description">
+                </div>
+              </div>
+            </div>
+            <!-- body -->
+            <div *ngIf="currentRequestType=='body'">
+              <div *ngIf="bodyType != '40' && bodyType != '10'">
+                <div *ngFor="let item of bodyTableList; let i = index" class="body">
+                  <div class="area">
+                    <mat-checkbox name="mip" [ngModel]="item.checked" class="form-check-input"></mat-checkbox>
+                    <mat-icon (click)="del(item, 'body')">close</mat-icon>
+                    <mat-icon *ngIf="i==0" (click)="addParams(i, currentRequestType)">add</mat-icon>
+                  </div>
+                  <div class="content">
+                    <input type="text" [(ngModel)]="item.key" placeholder="key">
+                    <mat-select [(ngModel)]="item.fileType" (selectionChange)="paramTypeSelectChange($event)">
+                      <mat-option [value]="'text'">Text</mat-option>
+                      <mat-option [value]="'file'">File</mat-option>
+                    </mat-select>
+                  </div>
+                  <div class="content">
+                    <input type="text" placeholder="value" [(ngModel)]="item.value">
+                    <div class="selectFile" *ngIf="(currentRequestType == 'body') && (bodyType == '20') && item.fileType == 'file'" (click)="selectFile('upload')">
+                      <input type="file" (change)='upload($event,item)' style="display: none;" id="upload">
+                      Select
+                    </div>
+                  </div>
+                  <div class="content">
+                    <input type="text" placeholder="description">
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="bodyType == '40'">
+                <textarea [(ngModel)]='Json'></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JSON格式化 -->
+    <div *ngIf="responseData" class="response">
+      <json-editor [data]="responseData"></json-editor>
+    </div>
+  </div>
+  <!-- 场景容器 -->
+  <div class="right-container" *ngIf="needExtension">
+    <mat-button-toggle-group [(ngModel)]="extensionGroup">
+      <mat-button-toggle [value]="'useScene'">场景</mat-button-toggle>
+      <mat-button-toggle [value]="'useParam'">套用参数</mat-button-toggle>
+      <mat-button-toggle [value]="'useSql'">套用SQL</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div class="fuzzy-searchBox">
+      <app-fuzzy-search
+        [inputmode]="extensionGroup"
+        (fuzzySelected)="handleFuzzySelected($event)">
+      </app-fuzzy-search>
+    </div>
+    <div class="json-tree">
+      <json-editor [options]="rightOptions" [data]="fuzzyRunData"></json-editor>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+@import "~@angular/material/theming";
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    mat-progress-bar {
+        border-radius: 10px;
+    }
+    .file-label {
+        display: inline-flex;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 18px;
+        justify-content: flex-end;
+        width: 100%;
+        padding-top: 5px;
+        mat-icon {
+            font-size: 18px;
+            text-align: center;
+        }
+        mat-icon:hover {
+            color: map-get($mat-red, 500);
+        }
+        a {
+            margin-left: 4px;
+            cursor: pointer;
+        }
+    }
+}
+
+// 点击+拖拽
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background: #fafafa;
+    border: 1px dashed #d9d9d9;
+    padding: 16px 0;
+    // margin: 20px;
+    cursor: pointer;
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    .icon {
+        margin-bottom: 20px;
+    }
+    .title {
+        margin: 0 0 4px;
+        color: rgba(0, 0, 0, 0.85);
+        font-size: 16px;
+    }
+    .desc {
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+    }
+}
+
+.hovering {
+    border: 1px dashed tomato;
+}
+
+.attach-container {
+    display: flex;
+    align-items: center;
+    mat-icon {
+        font-size: 20px;
+    }
+    .attach-name {
+        font-size: 13px;
+    }
+}

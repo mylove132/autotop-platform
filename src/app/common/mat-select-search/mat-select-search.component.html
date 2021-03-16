@@ -1,0 +1,11 @@
+<input matInput class="search-input visibility" /> 
+
+<div class="single" [ngClass]="{'multiple': matSelect.multiple}">
+  <input matInput class="search-input"
+  #searchSelectInput 
+  (keydown)="_handleKeydown($event)" 
+  (input)="onInputChange($event.target.value)"
+  (blur)="onBlur($event.target.value)" 
+  [placeholder]="placeholderLabel" />
+  <mat-icon *ngIf="value" (click)="_reset(true)" >close</mat-icon>
+</div>

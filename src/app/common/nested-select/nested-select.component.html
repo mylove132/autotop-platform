@@ -1,0 +1,22 @@
+<div class="basic-container">
+    <span class="nested-select-container" *ngFor="let item of nodes">
+        <!-- 枝干节点 -->
+        <span *ngIf="hasChildrenNode | appNestedSelect:this:item">
+            <button class="mat-form-field-infix nested-select" mat-button [matMenuTriggerFor]="menu.childMenu" #menuTrigger="matMenuTrigger" [disabled]="disabled">
+                <span class="root-node">{{displayName | appNestedSelect:this:item}}</span>
+            </button>
+            <app-select-item (selectChange)="onSelectChange($event)" [parent]="item" #menu [items]="item.children" [options]="options"></app-select-item>
+        </span>
+        <!-- 叶子节点 -->
+        <span *ngIf="hasLeafNode | appNestedSelect:this:item">
+            <button mat-button [disabled]="disabled">
+                <span class="root-node">{{displayName | appNestedSelect:this:item}}</span>
+            </button>
+        </span>
+        <mat-form-field class="select-container">
+            <mat-select [placeholder]="displayPlaceholder" [(ngModel)]="displayLabel" [disabled]="disabled">
+                <mat-option [value]="displayLabel">{{hasDisplayLabel | appNestedSelect:this:displayLabel}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </span>
+</div>

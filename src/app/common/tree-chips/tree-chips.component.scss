@@ -1,0 +1,11 @@
+:host {
+    .main {
+        width: 100%;
+        mat-chip-list {
+            ::ng-deep .mat-chip-list-wrapper {
+                max-height: 130px;
+                overflow: auto;
+            }
+        }
+    }
+}

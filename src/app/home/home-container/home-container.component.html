@@ -1,0 +1,71 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <div class="logo">
+        <img src="assets/images/logo.png" class="bling">
+      </div>
+      <div class="nav">
+        <app-menu
+          [model]="currMenu"
+          [textColor]="'#ffffff'"
+          [activeTextColor]="'#ffffff'"
+          [activeBackgroundColor]="'#7357FF'"
+          [backgroundColor]="'#25265E'"
+          [subBackgroundColor]="'#1A1545'"
+          (hoverChange)="hoverChangeHandle($event)">
+          <ng-container *ngFor="let item of menuInfo">
+            <app-submenu index="{{item?.id}}" *ngIf="item.childMenus" [parentId]="parentId">
+              <ng-template #title><img class="icon" src="{{item.iconUrl || item.icon}}">{{item?.cnName}}</ng-template>
+              <app-menu-item *ngFor="let m of item.childMenus" index="{{m.id}}" [to]="m.url" [isSubMenu]="true">
+                <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: #fff; margin-left: 20px;" [ngClass]="{'point': m.point}"></span>
+                <span class="subTitle">{{m.cnName}}</span>
+              </app-menu-item>
+            </app-submenu>
+            <app-menu-item index="{{item.id}}" [to]="item.url" *ngIf="!item.childMenus">
+              <img class="icon" src="{{item.iconUrl || item.icon}}">
+              <span>{{item.cnName}}</span>
+            </app-menu-item>
+          </ng-container>
+        </app-menu>
+      </div>
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <nav>
+        <button mat-icon-button>
+          <img src="assets/images/menu-bar.png" alt="" (click)="drawer.toggle(); menuToogle(drawer)" class="menu">
+        </button>
+  
+        <div class="head_wrap" [matMenuTriggerFor]="menu">
+          <img src="assets/images/teacher-avatar.png" alt="">
+          <p>{{userName}}</p>
+          <img src="assets/images/arrow-down.png" alt="" class="arrow-down">
+        </div>
+      </nav>
+      <mat-divider></mat-divider>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="loginOut()">
+          <mat-icon>swap_vert</mat-icon>
+          <span>切换账号</span>
+        </button>
+        <button mat-menu-item (click)="setting()">
+          <mat-icon>settings</mat-icon>
+          <span>设置</span>
+        </button>
+        <button mat-menu-item (click)="systemLog()">
+          <mat-icon>system_update_alt</mat-icon>
+          <span>更新日志</span>
+        </button>
+        <button mat-menu-item (click)="loginOut()">
+          <mat-icon>arrow_forward</mat-icon>
+          <span>退出</span>
+        </button>
+      </mat-menu>
+  
+      <ng-content></ng-content>
+  
+    </div>
+  
+  </mat-drawer-container>
+  
+  
+  

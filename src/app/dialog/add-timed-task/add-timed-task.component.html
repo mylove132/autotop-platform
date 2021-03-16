@@ -1,0 +1,100 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content>
+        <!-- 任务类型 -->
+        <mat-form-field class="full-width">
+            <mat-select placeholder="任务类型" formControlName="taskType" (selectionChange)="handleTakTypeSelectChange($event)">
+                <mat-option *ngFor="let item of taskList" [value]="item.id">
+                    {{item.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="form.get('taskType').value">
+            <!-- Jmeter类型的选项 -->
+            <!-- jmeter脚本 -->
+            <mat-form-field class="full-width" *ngIf="form.get('taskType').value == 2">
+                <mat-select multiple="multiple" placeholder="jmeter脚本" class="push-right" formControlName="jmeterIds" panelClass="_app-mat-select">
+                    <app-mat-select-search [formControl]="jemterSearch" [selectedOptions]="jmeterSelectedOptions"></app-mat-select-search>
+                    <mat-option *ngFor="let item of jmeterList" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput placeholder="定时任务名称" type="text" formControlName="name">
+            </mat-form-field>
+            <!-- 接口类型的选项 -->
+            <ng-container *ngIf="form.get('taskType').value == 1">
+                <!-- 目录树 -->
+                <app-tree-chips
+                    [isDisabled]="data?.data && data?.data?.status != 2"
+                    [displayError]="form.get('taskType').value == 1 ? true : false"
+                    [treeChipsSelected]="selectedCatalog"
+                    (treeChipsSelectChange)="handleTreeChipsSelectChange($event)">
+                </app-tree-chips>
+                <!-- 部署环境 -->
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="部署环境" formControlName="env">
+                        <mat-option *ngFor="let item of envList" [value]="item.id">
+                            {{item.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- 接口等级 -->
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="接口等级" formControlName="grade">
+                        <mat-option *ngFor="let item of gradeList" [value]="item.id">
+                            {{item.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+            <!-- crontab表达式 -->
+            <mat-form-field>
+                <input matInput placeholder="秒" type="text" formControlName="second">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="分" type="text" formControlName="minute">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="时" type="text" formControlName="hour">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="日" type="text" formControlName="day">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="月" type="text" formControlName="month">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="周" type="text" formControlName="week">
+            </mat-form-field>
+            <mat-icon [appTooltip]="helpTemp" contentType="template">help</mat-icon>
+            <ng-template #helpTemp>
+                <div>
+                    <p style="margin: 0;font-weight: bold;">crontab表达式（需要填写所有空缺部分），表达式示例：</p>
+                    <p style="margin: 0">* * * * * *</p>
+                    <p style="margin: 0">| | | | | |</p>
+                    <p style="margin: 0">| | | | | day of week</p>
+                    <p style="margin: 0">| | | | month</p>
+                    <p style="margin: 0">| | | day of month</p>
+                    <p style="margin: 0">| | hour</p>
+                    <p style="margin: 0">| minute</p>
+                    <p style="margin: 0">second (optional)</p>
+                    <p style="margin: 0">* * * * * *  every second</p>
+                    <p style="margin: 0">45 * * * * *  every minute, on the 45th second</p>
+                    <p style="margin: 0">* 10 * * * *  every hour, at the start of the 10th minute</p>
+                    <p style="margin: 0">0 */30 9-17 * * *  every 30 minutes between 9am and 5pm</p>
+                    <p style="margin: 0">0 30 11 * * 1-5  Monday to Friday at 11:30am</p>
+                    <p style="margin: 0"></p>
+                </div>
+            </ng-template>
+            <!-- 重启 + 钉钉消息 -->
+            <div class="flex full-width">
+                <mat-checkbox class="half-width" formControlName="restart" *ngIf="data?.data">重启定时任务</mat-checkbox>
+                <mat-checkbox class="half-width" formControlName="dingtalkNotice">钉钉消息通知</mat-checkbox>
+            </div>
+        </ng-container>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Token配置详情</h1>
+<div mat-dialog-content>
+  <p class="container">
+    <span class="title">Token ID：</span>
+    <span class="desc">{{detail.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">登录用户名：</span>
+    <span class="desc">{{detail.username}}</span>
+  </p>
+  <p class="container">
+    <span class="title">登录url：</span>
+    <span class="desc">{{detail.url}}</span>
+  </p>
+  <p class="container">
+    <span class="title">环境：</span>
+    <span class="desc">{{detail.env?.name}}</span>
+  </p>
+  <p class="container">
+    <span class="title">环境ID：</span>
+    <span class="desc">{{detail.env?.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">平台：</span>
+    <span class="desc">{{detail.platformCode?.name}}</span>
+  </p>
+  <p class="container">
+    <span class="title">平台ID：</span>
+    <span class="desc">{{detail.platformCode?.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">平台编码：</span>
+    <span class="desc">{{detail.platformCode?.platformCode}}</span>
+  </p>
+  <p class="container">
+    <span class="title">token：<br><i class="copy">(点击可复制)</i></span>
+    <span class="desc token" ngxClipboard [cbContent]="detail.token" (click)="copyToken()">{{detail.token}}</span>
+  </p>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close type="button">关闭</button>
+</div>

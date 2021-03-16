@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    .title {
+        flex: 0 0 20%;
+    }
+    .desc {
+        flex: 0 0 80%;
+    }
+    .token {
+        max-width: 500px;
+        word-break: break-all;
+    }
+    .copy {
+        font-size: 12px;
+        font-style: normal;
+        color: red;
+    }
+}

@@ -1,0 +1,42 @@
+<div tabindex="=0" (blur)="onTouched()" class="multiselect-dropdown" (clickOutsides)="closeDropdown()">
+  <div [class.disabled]="disabled">
+    <span tabindex="-1" class="dropdown-btn" (click)="toggleDropdown($event)">
+      <span class="placeholder" *ngIf="selectedItems.length == 0">{{_placeholder}}</span>
+      <span class="selected-item" *ngFor="let item of selectedItems;trackBy: trackByFn;let k = index" [hidden]="k > _settings.itemsShowLimit-1">
+        <i>{{item.text}}</i>
+        <svg (click)="onItemClick($event,item)" t="1560834441354" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2091" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16">
+          <path d="M783.530667 723.2l-60.330667 60.330667L512 572.330667 300.8 783.530667l-60.416-60.330667L451.669333 512 240.384 300.885333l60.416-60.416L512 451.669333l211.2-211.2 60.330667 60.416L572.330667 512l211.2 211.2zM512 0a512 512 0 1 0 0 1024A512 512 0 0 0 512 0z" fill="#CCCCCC" p-id="2092"></path>
+        </svg>
+      </span>
+      <span style="float:right !important;padding-right:4px">
+        <span style="padding-right: 6px;" *ngIf="itemShowRemaining()>0">+{{itemShowRemaining()}}</span>
+        <span [ngClass]="_settings.defaultOpen ? 'dropdown-up' : 'dropdown-down'"></span>
+      </span>
+    </span>
+  </div>
+  <div class="dropdown-list" [hidden]="!_settings.defaultOpen">
+    <ul class="item1">
+      <li (click)="toggleSelectAll()" *ngIf="_data.length > 0 && !_settings.singleSelection && _settings.enableCheckAll && _settings.limitSelection===-1" class="multiselect-item-checkbox hover" style="border-bottom: 1px solid #ccc;padding:10px">
+        <input type="checkbox" aria-label="multiselect-select-all" [checked]="isAllItemsSelected()" [disabled]="disabled || isLimitSelectionReached()" />
+        <div>{{!isAllItemsSelected() ? _settings.selectAllText : _settings.unSelectAllText}}</div>
+      </li>
+      <li class="filter-textbox hover" *ngIf="_data.length>0 && _settings.allowSearchFilter">
+        <input type="text" aria-label="multiselect-search" [readOnly]="disabled" [placeholder]="_settings.searchPlaceholderText" [(ngModel)]="filter.text" (ngModelChange)="onFilterTextChange($event)">
+      </li>
+    </ul>
+    <ul class="item2" [style.maxHeight]="_settings.maxHeight+'px'">
+      <li *ngFor="let item of _data | ng2ListFilter:filter; let i = index;" (click)="onItemClick($event,item)" class="multiselect-item-checkbox">
+        <input type="checkbox" aria-label="multiselect-item" [checked]="isSelected(item)" [disabled]="disabled || (isLimitSelectionReached() && !isSelected(item))" />
+        <div>{{item.text}}</div>
+      </li>
+      <li class='no-data' *ngIf="_data.length == 0">
+        <svg t="1560837508149" class="icon" viewBox="0 0 1597 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7092" xmlns:xlink="http://www.w3.org/1999/xlink" width="49.90625" height="32">
+          <path d="M1596.780684 848.096579c0 88.595573-357.472837 175.903421-798.390342 175.903421S0 936.949698 0 848.096579s357.472837-177.191147 798.390342-177.191146 798.390342 87.822938 798.390342 177.191146z" fill="#F4F4F4" p-id="7093"></path>
+          <path d="M1292.362173 934.889336H284.84507s-69.022133-12.877264-69.022132-74.173038v-502.21328h318.841046s20.861167 156.072435 62.841046 156.072435h398.680081s61.295775-24.209256 61.295774-156.072435h321.93159v502.21328s6.438632 74.173038-87.050302 74.173038z" fill="#F9F9F9" p-id="7094"></path>
+          <path d="M1292.362173 947.7666H284.84507a92.716298 92.716298 0 0 1-80.61167-87.050302v-502.21328a12.877264 12.877264 0 0 1 12.877264-12.877263h318.841046a12.877264 12.877264 0 0 1 12.877264 11.074446c10.044266 75.71831 33.995976 144.997988 49.963783 144.997988h394.30181c9.014085-5.408451 51.509054-35.798793 51.509055-143.195171a12.877264 12.877264 0 0 1 12.877263-12.877263h321.93159a12.877264 12.877264 0 0 1 12.877263 12.877263v502.21328a83.444668 83.444668 0 0 1-20.861167 58.205231 103.018109 103.018109 0 0 1-79.066398 28.845071zM229.987928 371.380282v489.336016c0 49.963783 54.857143 61.038229 57.17505 61.55332h1004.426559a78.808853 78.808853 0 0 0 60.008049-20.088531 58.462777 58.462777 0 0 0 14.164989-40.177063v-489.336016H1070.100604c-3.863179 128.772636-66.44668 154.527163-69.279678 154.527163a12.619718 12.619718 0 0 1-4.635815 0H598.792757c-45.327968 0-66.704225-108.169014-73.915493-156.072435z" fill="#DDDDDD" p-id="7095"></path><path d="M1070.100604 13.134809H526.422535l-309.054326 345.625754h318.841047s20.861167 156.072435 62.841046 156.072435h397.134809s61.295775-24.209256 61.295774-156.072435h321.93159z" fill="#FFFFFF" p-id="7096"></path><path d="M996.185111 527.452716H598.792757c-45.327968 0-66.704225-108.169014-73.915493-156.072434H217.110664a12.877264 12.877264 0 0 1-9.529175-21.376258l309.054326-345.625754a12.877264 12.877264 0 0 1 9.529175-4.37827h543.678068a12.877264 12.877264 0 0 1 9.529175 4.37827l309.054326 345.625754a12.877264 12.877264 0 0 1-9.529175 21.376258h-309.054326c-3.863179 128.772636-66.44668 154.527163-69.279678 154.527163a12.619718 12.619718 0 0 1-4.378269 1.545271zM245.955734 345.625755h289.995976a12.877264 12.877264 0 0 1 12.877264 11.074446c10.044266 75.71831 33.995976 144.997988 49.963783 144.997988h394.30181c9.014085-5.408451 51.509054-35.798793 51.509055-143.195171a12.877264 12.877264 0 0 1 12.877263-12.877263h293.086519L1064.434608 27.042254H532.088531z" fill="#DDDDDD" p-id="7097"></path>
+        </svg>
+        <h5>{{_settings.noDataAvailablePlaceholderText}}</h5>
+      </li>
+    </ul>
+  </div>
+</div>

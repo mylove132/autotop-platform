@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~jsoneditor/dist/jsoneditor.min.css";
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+@import './theme/theme.scss';
+// markdown相关 Start
+@import 'prismjs/themes/prism-okaidia.css';
+@import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
+// markdown相关 End
+
+* {
+    outline: none;
+}
+
+.cursor {
+    cursor: pointer !important;
+}
+
+.actives{
+    color: #488aff !important;
+}
+
+/* fallback */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialicons/v41/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* global loadding service style */
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing.dark-backdrop {
+    background: #000;
+    opacity: .288 !important;
+}
+
+// 产品线目录树overlay面板
+.cataLog-tree-overlay {
+    overflow: auto;
+    max-height: 70%;
+     mat-tree {
+        .mat-tree-node {
+            min-height: auto;
+        }
+        .mat-icon-button {
+            width: 30px;
+            height: 20px;
+            line-height: 20px;
+        }
+    }
+}

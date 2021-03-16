@@ -1,0 +1,21 @@
+<div class="main-container">
+    <div class="header">
+        <p>添加环境</p>
+        <mat-icon class="closeIcon"(click)="closeModal()">close</mat-icon>
+    </div>
+    <div class="content">
+        <div class="form-item">
+            <mat-label class="hint">名称：</mat-label>
+            <input type="text" placeholder="请输入环境名称" [(ngModel)]="name"/>
+        </div>
+    </div>
+  
+    <div class="submit_wrap">
+        <button class="actionButton ensure cursor" [disabled]="!name" [ngClass]="{'grey': !name}" appDebounceClick (debounceClick)="save()">
+            保存
+        </button>
+        <button class="actionButton cancel cursor" (click)="closeModal()">
+            取消
+        </button>
+    </div>
+</div>

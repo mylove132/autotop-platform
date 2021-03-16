@@ -1,0 +1,14 @@
+@mixin sidebar-theme($theme) {
+    $background: map-get($theme, background);
+    $is-dark: map-get($theme, is-dark);
+
+    .search-container {
+        background: mat-color($background, 'card');
+        input {
+            background: mat-color($background, 'card');
+        }
+        input:hover, input:focus {
+            background: mat-color($background, 'card') !important;
+        }
+    }
+}

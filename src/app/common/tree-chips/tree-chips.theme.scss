@@ -1,0 +1,9 @@
+// 产品线目录树overlay面板主题
+@mixin catalog-tree-overlay-theme($theme) {
+    $background: map-get($theme, background);
+    $is-dark: map-get($theme, is-dark);
+
+    .cataLog-tree-overlay {
+        background-color: mat-color($background, 'card');
+    }
+}

@@ -1,0 +1,27 @@
+.confirm{
+    padding: 24px;
+    p{
+        text-align: center;
+        margin-bottom: 0;
+        font-size: 18px;
+        margin-top: 20px;
+        span {
+            font-size: 18px;
+        }
+    }
+    .tip {
+        font-size: 12px;
+        color: #ff6700;
+        padding: 30px 0;
+        display: block;
+        text-align: center;
+    }
+    .visible {
+        visibility: hidden;
+    }
+    .action_buttons{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}

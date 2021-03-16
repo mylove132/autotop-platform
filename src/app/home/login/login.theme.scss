@@ -1,0 +1,23 @@
+@import '../../../theme/base';
+
+@mixin login-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+
+    .placeholder {
+        @if $is-dark {
+            background-color: mat-color($background, background);
+        } @else {
+            background-color: $login-bg;
+        }
+    }
+    .login_wrap {
+        background: mat-color($background, 'card');
+        h3 {
+            @if $is-dark {
+                color: mat-color($foreground, text) !important;
+            } 
+        }
+    }
+}

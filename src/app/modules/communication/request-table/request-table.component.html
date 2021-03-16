@@ -1,0 +1,155 @@
+<div class="wrap">
+  <!-- 产品线Tree -->
+  <div class="left">
+    <app-sidebar (select)="setId($event)" (updateCatalogTree)="handleUpdateCatalogTree()"></app-sidebar>
+  </div>
+  <!-- 接口用例详情 -->
+  <div class="right">
+    <div class="content">
+
+      <!-- 顶部菜单 -->
+      <div class="btn-contain">
+        <div>
+          <mat-form-field class="margin-10">
+            <mat-select placeholder="运行环境" [(ngModel)]="evn" (selectionChange)='changeEvn()'>
+              <mat-option *ngFor="let evn of evns" [value]="evn">
+                {{evn.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button class="margin-l10" color="primary" (click)="addInterface()">添加接口</button>
+          <button mat-raised-button class="margin-l10" color="primary" (click)="addPerfTest()">添加性能测试</button>
+          <button mat-raised-button class="margin-l10" color="warn" (click)="batchOperateRequest()">批量运行</button>
+        </div>
+        <div class="search-box">
+          <mat-form-field class="box">
+            <mat-label>搜索接口用例</mat-label>
+            <input matInput type="text" [(ngModel)]="searchKeyword" (keyup.enter)="handleSearch()">
+            <button mat-button *ngIf="searchKeyword" matSuffix mat-icon-button (click)="searchKeyword=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-icon class="search cursor" color="primary" (click)="handleSearch()">search</mat-icon>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- 空页面 -->
+      <div class="noDataDisplay" *ngIf="dataSource.filteredData.length == 0">
+        <img src="assets/images/empty.png">
+        <p>没有查找到相关数据～</p>
+      </div>
+  
+      <!-- 表格汇总 -->
+      <table *ngIf="dataSource.filteredData.length>0" mat-table [dataSource]="dataSource">
+        <!-- 复选框checkbox -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                  (change)="$event ? masterToggle() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" (click)="selection.toggle(row)">
+              <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(row) : null"
+                  [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- id -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>id</th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+        <!-- 名称 -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>名称</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <!-- 操作 -->
+        <ng-container matColumnDef="path">
+          <th mat-header-cell *matHeaderCellDef>操作</th>
+          <td mat-cell *matCellDef="let element; let groupBy">
+            <a class="margin-l10" (click)="toDetail(element, groupBy)">查看</a>
+            <a class="margin-l10" (click)="del(element)">删除</a>
+          </td>
+        </ng-container>
+        <!-- 参数类型 -->
+        <ng-container matColumnDef="paramType">
+          <th mat-header-cell *matHeaderCellDef>参数类型</th>
+          <td mat-cell *matCellDef="let element"> {{element.paramType | appParamType}} </td>
+        </ng-container>
+        <!-- 请求类型 -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>请求类型</th>
+          <td mat-cell *matCellDef="let element"> {{element.type | appHttpType}} </td>
+        </ng-container>
+        <!-- 创建时间 -->
+        <ng-container matColumnDef="createDate">
+          <th mat-header-cell *matHeaderCellDef>创建时间</th>
+          <td mat-cell *matCellDef="let element"> {{element.createDate | appDate: 'YYYY-MM-DD HH:mm'}} </td>
+        </ng-container>
+        <!-- 预计结果 -->
+        <ng-container matColumnDef="assertText">
+          <th mat-header-cell *matHeaderCellDef>预计结果</th>
+          <td mat-cell *matCellDef="let element"> {{element.assertText}} </td>
+        </ng-container>
+        <!-- 分组操作 -->
+        <ng-container matColumnDef="operate">
+          <th mat-header-cell *matHeaderCellDef>操作</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon color="warn" class="cursor run" matTooltip="运行" (click)="operateSingleRequest(element?.id)">play_arrow</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+        <!-- 分组表头 -->
+        <ng-container matColumnDef="groupHeader">
+          <td colspan="999" mat-cell *matCellDef="let groupBy; let idx = index;">
+            <div style="display: flex;align-items: center; justify-content: space-between;position: relative;">
+              <mat-checkbox
+                [checked]="setCheckBoxChecked | appExecute:this:groupBy"
+                (change)="chackBoxChange($event, groupBy)"
+                style="position: absolute;">
+              </mat-checkbox>
+              <a
+                class="links"
+                title="{{groupBy.endpoint + groupBy.path}}"
+                appDrop
+                [appDrag]="true"
+                [dragData]="groupBy"
+                [dragTag]="'request-table'"
+                [draggedClass]="'drag-start'">
+                <strong class="group-title">{{groupBy.endpoint + groupBy.path}}</strong>
+              </a>
+              <div>
+                <button mat-raised-button class="margin-l10" color="primary" (click)="addRequest(groupBy)">添加</button>
+                <button mat-raised-button class="margin-l10" color="warn" (click)="operateRequest(groupBy)">运行</button>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
+      </table>
+      <!-- 客户端分页[检索] -->
+      <div [hidden]="dataOrigin != 'search'">
+        <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+      </div>
+      <!-- 服务器分页[目录] -->
+      <mat-paginator
+        *ngIf="dataOrigin == 'catalog' && dataSource.filteredData.length > 0"
+        (page)="changePage($event)"
+        [pageIndex]="page.pageNumber"
+        [pageSize]="page.size"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        [length]="page.totalElements"
+        showFirstLastButtons>
+      </mat-paginator>
+
+    </div>
+  </div>
+</div>

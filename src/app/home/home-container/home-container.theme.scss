@@ -1,0 +1,71 @@
+@import '../../../theme/base';
+
+@mixin home-container-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+  
+    .example-container {
+        @if $is-dark {
+            background-color: mat-color($background, background);
+        } @else {
+            background-color: $main-bg;
+        }
+    }
+    .example-sidenav-content {
+        nav {
+            @if $is-dark {
+                border-bottom: 1px solid mat-color($foreground, divider);
+            }
+            // background-color: mat-color($background, background);
+            background: mat-color($background, 'card');
+        }
+        p {
+            @if $is-dark {
+                color: mat-color($foreground, text, .8) !important;
+            }
+        }
+    }
+    .example-sidenav {
+        @if $is-dark {
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+            background-color: $menu-outer;
+        } @else {
+            background-color: $menu-bg;
+        }
+        .logo {
+            @if $is-dark {
+                background-color: $menu-outer !important;
+            }
+        }
+        app-menu {
+            ul {
+                @if $is-dark {
+                    background-color: mat-color($background, background) !important;
+                }
+            }
+        }
+        app-submenu {
+            .el-submenu__title {
+                @if $is-dark {
+                    background-color: transparent !important;
+                }
+            }
+            ul {
+                @if $is-dark {
+                    background-color: mat-color($background, background) !important;
+                }
+                .is-active {
+                    @if $is-dark {
+                        background-color: $menu-hover !important;
+                    }
+                }
+            }
+            li:hover {
+                @if $is-dark {
+                    background-color: transparent !important;
+                }
+            }
+        }
+    }
+}

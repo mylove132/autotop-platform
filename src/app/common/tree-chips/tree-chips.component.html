@@ -1,0 +1,46 @@
+<mat-form-field class="main" #formFile>
+    <mat-chip-list #chipList [disabled]="isDisabled">
+        <mat-chip
+            *ngFor="let item of selectedCataLogList"
+            color="accent"
+            selected="true"
+            [removable]="removable"
+            (removed)="remove(item)">
+            {{item.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+            placeholder="目录"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+            (focus)="handleFocus($event)">
+    </mat-chip-list>
+</mat-form-field>
+<ng-template #treePanel>
+  <!-- 产品线目录树 -->
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <!-- 叶子节点 -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox
+          [checked]="checklistSelection.isSelected(node)"
+          (change)="leafItemSelectionToggle(node)">
+          {{node.name}}
+      </mat-checkbox>
+      </mat-tree-node>
+      <!-- 枝干节点 -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle>
+          <mat-icon>{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}</mat-icon>
+        </button>
+        <mat-checkbox
+          [checked]="descendantsAllSelected(node)"
+          [indeterminate]="descendantsPartiallySelected(node)"
+          (change)="itemSelectionToggle(node)">
+          {{node.name}}
+      </mat-checkbox>
+      </mat-tree-node>
+    </mat-tree>
+</ng-template>

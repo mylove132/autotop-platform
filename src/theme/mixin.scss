@@ -1,0 +1,35 @@
+@import '../app/home/login/login.theme';
+@import '../app/home/home-container/home-container.theme';
+@import '../app/modules/conference/history-log/history-log.theme';
+@import '../app/modules/conference/config-manage/config-manage.theme';
+@import '../app/modules/conference/endpoint-manage/endpoint-manage.theme';
+@import '../app/modules/communication/sidebar/sidebar.theme';
+@import '../app/modules/communication/request-table/request-table.theme';
+@import '../app/dialog/edit-catalog/edit-catalog.theme';
+@import '../app/dialog/add-endpoint/add-endpoint.theme';
+@import '../app/dialog/add-env/add-env.theme';
+@import '../app/modules/conference/timed-task/timed-task.theme';
+@import '../app/dialog/request/request.theme';
+@import '../app/common/tree-chips/tree-chips.theme';
+@import '../app/modules/conference/performance-test/performance-test.theme';
+@import '../app/common/file-upload/file-upload.theme';
+@import '../app/modules//dbm/db-list/db-list.theme';
+
+@mixin custom-components-theme($theme) {
+    @include login-theme($theme);
+    @include home-container-theme($theme);
+    @include history-log-theme($theme);
+    @include config-manage-theme($theme);
+    @include endpoint-manage-theme($theme);
+    @include sidebar-theme($theme);
+    @include request-table-theme($theme);
+    @include edit-catalog-theme($theme);
+    @include add-endpoint-theme($theme);
+    @include add-env-theme($theme);
+    @include timed-task-theme($theme);
+    @include request-theme($theme);
+    @include catalog-tree-overlay-theme($theme);
+    @include performance-test-theme($theme);
+    @include file-upload-theme($theme);
+    @include db-list-theme($theme);
+}

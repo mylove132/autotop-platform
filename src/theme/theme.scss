@@ -1,0 +1,31 @@
+// API文档: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import './mixin';
+@import './base';
+
+@include mat-core();
+
+// 白天模式：使用调色板配色: https://material.io/design/color/
+$light-app-primary: mat-palette($mat-indigo);
+$light-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$light-app-warn:    mat-palette($mat-red);
+
+// 创建主题对象
+$light-app-theme: mat-light-theme($light-app-primary, $light-app-accent, $light-app-warn);
+
+@include angular-material-theme($light-app-theme);
+@include custom-components-theme($light-app-theme);
+
+
+// 深色模式：使用调色板配色: https://material.io/design/color/
+$dark-app-primary: mat-palette($mat-blue-gray);
+$dark-app-accent:  mat-palette($mat-amber, A200, A100, A400);
+$dark-app-warn:    mat-palette($mat-deep-orange);
+
+// 创建主题对象
+$dark-app-theme: mat-dark-theme($dark-app-primary, $dark-app-accent, $dark-app-warn);
+
+.autotop-dark-theme {
+    @include angular-material-theme($dark-app-theme);
+    @include custom-components-theme($dark-app-theme)
+}

@@ -1,0 +1,38 @@
+@import '../../../../theme/base';
+
+@mixin db-list-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+
+    .noDataDisplay {
+        @if $is-dark {
+            background: mat-color($background, 'card') !important;
+        }
+    }
+
+    .db-main {
+        background: mat-color($background, 'card') !important;
+        mat-card {
+            background: rgba(186, 168, 206, .1) !important;
+        }
+        mat-card:hover {
+            @if $is-dark {
+                background: #37363c !important;
+            }@else {
+                background: #d6cffb !important;
+            }
+        }
+        .desc {
+            @if $is-dark {
+                color: mat-color($foreground, text, 0.8) !important;
+            }
+        }
+    }
+
+    .edit-container {
+        @if $is-dark {
+            background: mat-color($background, 'card') !important;
+        }
+    }
+}

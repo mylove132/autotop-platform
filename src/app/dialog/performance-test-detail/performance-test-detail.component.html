@@ -1,0 +1,96 @@
+<h1 mat-dialog-title>{{type == 'script' ? '压测脚本' : '压测脚本执行历史结果'}}详情</h1>
+<div mat-dialog-content>
+    <!-- 脚本视图详情 -->
+    <ng-container *ngIf="type == 'script'">
+        <p class="container">
+            <span class="title">压测脚本id：</span>
+            <span class="desc">{{detail.id}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测脚本名称：</span>
+            <span class="desc">{{detail.name}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测脚本url：</span>
+            <span class="desc">{{detail.url}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测总线程数：</span>
+            <span class="desc">{{detail.preCountNumber}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测总时长（s）：</span>
+            <span class="desc">{{detail.preCountTime}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测循环次数：</span>
+            <span class="desc">{{detail.loopNum}}</span>
+        </p>
+        <p class="container">
+            <span class="title">分布式远程IP地址：</span>
+            <span class="desc">{{detail.remote_address}}</span>
+        </p>
+        <p class="container">
+            <span class="title">创建时间：</span>
+            <span class="desc">{{detail.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+        </p>
+        <p class="container">
+            <span class="title">更新时间：</span>
+            <span class="desc">{{detail.updateDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+        </p>
+    </ng-container>
+    <!-- 结果视图详情 -->
+    <ng-container *ngIf="type == 'log'">
+        <p class="container">
+            <span class="title">执行结果id：</span>
+            <span class="desc">{{detail.id}}</span>
+        </p>
+        <p class="container">
+            <span class="title">执行结果url：</span>
+            <span class="desc">{{detail.url}}</span>
+        </p>
+        <p class="container">
+            <span class="title">执行结果创建时间：</span>
+            <span class="desc">{{detail.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测脚本id：</span>
+            <span class="desc">{{detail.jmeter?.id}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测脚本名称：</span>
+            <span class="desc">{{detail.jmeter?.name}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测脚本url：</span>
+            <span class="desc">{{detail.jmeter?.url}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测总线程数：</span>
+            <span class="desc">{{detail.jmeter?.preCountNumber}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测总时长（s）：</span>
+            <span class="desc">{{detail.jmeter?.preCountTime}}</span>
+        </p>
+        <p class="container">
+            <span class="title">压测循环次数：</span>
+            <span class="desc">{{detail.jmeter?.loopNum}}</span>
+        </p>
+        <p class="container">
+            <span class="title">分布式远程IP地址：</span>
+            <span class="desc">{{detail.jmeter?.remote_address}}</span>
+        </p>
+        <p class="container">
+            <span class="title">创建时间：</span>
+            <span class="desc">{{detail.jmeter?.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+        </p>
+        <p class="container">
+            <span class="title">更新时间：</span>
+            <span class="desc">{{detail.jmeter?.updateDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+        </p>
+    </ng-container>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close type="button">关闭</button>
+</div>

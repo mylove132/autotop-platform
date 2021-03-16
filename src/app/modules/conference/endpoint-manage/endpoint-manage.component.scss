@@ -1,0 +1,42 @@
+.config-contaner {
+    margin: 20px;
+    height: 100%;
+    .action-container {
+        padding: 20px 0;
+        border-bottom: 1px solid #CCC;
+        .add {
+            margin: 0 20px 0 10px;
+        }
+        .grey {
+            background: grey;
+        }
+    }
+    .panel-container {
+        height: calc(100% - 180px);
+        overflow: auto;
+        .panel-content {
+            border-top: 1px solid rgba(0,0,0,.12);
+        }
+        table {
+            width: 100%;
+            .action {
+                color: #488aff;
+                cursor: pointer;
+            }
+            .mgRight {
+                margin-right: 10px;
+            }
+        }
+        .pagination-container {
+            position: relative;
+            .tip {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                margin-left: 20px;
+                font-size: 12px;
+                color: #f30606;
+            }
+        }
+    }
+}

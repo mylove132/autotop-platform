@@ -1,0 +1,14 @@
+@import '../../../theme/base';
+
+@mixin edit-catalog-theme($theme) {
+    $background: map-get($theme, background);
+    $is-dark: map-get($theme, is-dark);
+
+    .header {
+        @if $is-dark {
+            background-color: mat-color($background, background);
+        } @else {
+            background-color: $main-bg;
+        }
+    }
+}

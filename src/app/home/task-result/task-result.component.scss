@@ -1,0 +1,108 @@
+.main {
+    border: 1px solid #d1d5da;
+    max-width: 1012px;
+    margin-right: auto;
+    margin-left: auto;
+    border-bottom: none;
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 40px;
+        .card {
+            height: 96px;
+            width: 164px;
+            display: inline-flex;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            .count {
+                font-size: 42px;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+            .success {
+                ::ng-deep .mat-progress-bar-fill::after {
+                    background-color: #68e534;
+                }
+                ::ng-deep .mat-progress-bar-buffer {
+                    background: #e4e8eb;
+                }
+                ::ng-deep .mat-progress-bar {
+                    border-radius: 2px;
+                }
+            }
+            .error {
+                ::ng-deep .mat-progress-bar-fill::after {
+                    background-color: #d81e06;
+                }
+                ::ng-deep .mat-progress-bar-buffer {
+                    background: #e4e8eb;
+                }
+                ::ng-deep .mat-progress-bar {
+                    border-radius: 2px;
+                }
+            }
+        }
+    }
+    table {
+        width: 100%;
+        .check {
+            color: #68e534;
+            font-size: 28px;
+        }
+        tr.detail-row {
+            height: 0;
+        }
+        tr.element-row:not(.example-expanded-row):hover {
+            background: whitesmoke;
+        }
+        tr.element-row:not(.example-expanded-row):active {
+            background: #efefef;
+        }
+        .element-row td {
+            border-bottom-width: 0;
+        }
+        .element-detail {
+            overflow: hidden;
+            display: flex;
+        }
+        .element-detail-container {
+            .base_title {
+                padding-bottom: 8px;
+                margin: 10px 0 10px;
+                border-bottom: 1px dashed #CCCCCC;
+                .label {
+                    border-left: 4px solid #ff6700;
+                    padding-left: 15px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+            }
+            .base_content {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                margin: 20px 0 0;
+                padding-right: 190px;
+                position: relative;
+                p {
+                    margin: 0;
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #4a4a4a;
+                    text-align: left;
+                    margin-right: 70px;
+                    margin-bottom: 20px;
+                    span {
+                        color:#919191;
+                    }
+                }
+                .full-width {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+

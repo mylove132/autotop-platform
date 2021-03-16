@@ -1,0 +1,19 @@
+<mat-menu #childMenu="matMenu" [overlapTrigger]="false">
+    <span *ngFor="let child of items">
+        <!-- 枝干节点菜单项 -->
+        <span *ngIf="hasChildrenNode | appNestedSelect:this:child">
+            <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu" (click)="onBranchClick(child)">
+                <mat-icon *ngIf="hasIcon | appNestedSelect:this:child">{{displayIcon | appNestedSelect:this:child}}</mat-icon>
+                <span>{{displayName | appNestedSelect:this:child}}</span>
+            </button>
+            <app-select-item #menu [parent]="child" [items]="child.children" (selectChange)="onSelectLeafChange($event)"></app-select-item>
+        </span>
+        <!-- 叶子节点菜单项 -->
+        <span *ngIf="hasLeafNode | appNestedSelect:this:child">
+            <button mat-menu-item (click)="onLeafClick(child)">
+                <mat-icon *ngIf="hasIcon | appNestedSelect:this:child">{{displayIcon | appNestedSelect:this:child}}</mat-icon>
+                <span>{{displayName | appNestedSelect:this:child}}</span>
+            </button>
+        </span>
+    </span>
+</mat-menu>

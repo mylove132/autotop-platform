@@ -1,0 +1,96 @@
+.wrap {
+  width: 100%;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  position: relative;
+  // 产品线Tree
+  .left {
+    width: 30%;
+    height: 100%;
+    border-right: 2px solid rgba(3, 3, 3, 0.2);
+  }
+  // 接口用例详情
+  .right {
+    position: relative;
+    top: 10px;
+    width: 70%;
+    height: 100%;
+    padding: 0 10px;
+    overflow: scroll;
+    table {
+      width: 100%;
+    }
+    a {
+      color: #488aff;
+      cursor: pointer;
+    }
+    .content {
+      padding-bottom: 20px;
+      // 空页面
+      .noDataDisplay {
+        width: 100%;
+        height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #919191;
+        font-size: 13px;
+        flex-direction: column;
+        img {
+            width: 86px;
+        }
+        p {
+            font-size: 13px;
+            margin-top: 10px;
+        }
+      }
+      .mat-raised-button[disabled][disabled] {
+        background-color: gray;
+        color: white;
+      }
+      .margin-l10 {
+        margin-left: 10px;
+      }
+      .margin-10 {
+        margin-right: 10px;
+      }
+      // 顶部操作菜单以及检索框
+      .btn-contain {
+        padding: 20px 20px 5px;
+        display: flex;
+        justify-content: space-between;
+        .search-box {
+          display: flex;
+          align-items: center;
+          .box {
+            width: 200px;
+          }
+          .search {
+            height: 30px;
+            width: 30px;
+            font-size: 30px;
+          }
+        }
+      }
+      .run {
+        font-size: 42px;
+      }
+      .links {
+        display:inline-block;
+        color: #000;
+        max-width: 650px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-left: 30px;
+        cursor: move;
+      }
+      // 开始拖拽
+      .drag-start {
+        opacity: 0.5;
+        border: #ff525b dashed 2px;
+      }
+    }
+  }
+}

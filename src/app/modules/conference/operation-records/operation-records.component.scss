@@ -1,0 +1,35 @@
+.main-container {
+    position: relative;
+    min-height: 200px;
+    height: 100%;
+    margin: 20px;
+    .search-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px 0;
+        .mgRight {
+            margin-right: 10px;
+        }
+    }
+    .table-container {
+        position: relative;
+        max-height: calc(100% - 220px);
+        overflow: auto;
+    }
+    table {
+        width: 100%;
+    }
+    .mat-header-cell, .mat-cell {
+        min-width: 150px;
+        padding: 10px 20px;
+    }
+    .mat-column-actions {
+        width: 40px;
+        max-width: 20px;
+        min-width: 20px;
+    }
+    .mat-table-sticky:last-child {
+        border-left: 1px solid #e0e0e0;
+    }
+}

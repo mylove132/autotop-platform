@@ -1,0 +1,205 @@
+
+<div class="main-container">
+    <ng-container></ng-container>
+    
+    <div class="search-container">
+        <!-- 脚本视图——检索 -->
+        <div *ngIf="viewBtnToggle == 'script'">
+            <mat-form-field class="mgRight">
+                <input matInput placeholder="压测脚本名称" [(ngModel)]="keyword" (keyup.enter)="search()">
+            </mat-form-field>
+            <button class="mgRight" mat-raised-button color="primary" (click)="rest()">重置</button>
+            <button class="mgRight" mat-raised-button color="warn" (click)="batchDelete()">批量删除</button>
+        </div>
+        <!-- 日志视图——检索 -->
+        <div *ngIf="viewBtnToggle == 'log'">
+            <mat-form-field class="mgRight">
+                <input matInput placeholder="压测脚本名称" [(ngModel)]="keywordOfLog" (keyup.enter)="searchOfLog()">
+            </mat-form-field>
+            <button class="mgRight" mat-raised-button color="primary" (click)="restOfLog()">重置</button>
+        </div>
+        <!-- 视图切换 -->
+        <div>
+            <mat-button-toggle-group [(ngModel)]="viewBtnToggle" (change)="handleButtonToggle($event)">
+                <mat-button-toggle [value]="'script'">脚本</mat-button-toggle>
+                <mat-button-toggle [value]="'log'">结果</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- 脚本视图 -->
+    <ng-container *ngIf="viewBtnToggle == 'script'">
+        <div class="table-container script-view">
+            <table mat-table [dataSource]="dataSource">
+                <!-- 复选框checkbox -->
+                <ng-container matColumnDef="select" sticky>
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox
+                            (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="selection.toggle(row)">
+                        <mat-checkbox
+                            (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <!-- 压测脚本名称 -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>压测脚本名称</th>
+                    <td mat-cell *matCellDef="let row" class="cursor actives" (click)="handleViewLog(row)">{{row.name}}</td>
+                </ng-container>
+                <!-- 压测总线程数 -->
+                <ng-container matColumnDef="preCountNumber">
+                    <th mat-header-cell *matHeaderCellDef>压测总线程数</th>
+                    <td mat-cell *matCellDef="let row">{{row.preCountNumber}}</td>
+                </ng-container>
+                <!-- 压测总时长（s） -->
+                <ng-container matColumnDef="preCountTime">
+                    <th mat-header-cell *matHeaderCellDef>压测总时长（s）</th>
+                    <td mat-cell *matCellDef="let row">{{row.preCountTime}}</td>
+                </ng-container>
+                <!-- 压测循环次数 -->
+                <ng-container matColumnDef="loopNum">
+                    <th mat-header-cell *matHeaderCellDef>压测循环次数</th>
+                    <td mat-cell *matCellDef="let row">{{row.loopNum}}</td>
+                </ng-container>
+                <!-- 创建时间 -->
+                <ng-container matColumnDef="createDate">
+                    <th mat-header-cell *matHeaderCellDef>创建时间</th>
+                    <td mat-cell *matCellDef="let row">{{row.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</td>
+                </ng-container>
+                <!-- 更新时间 -->
+                <ng-container matColumnDef="updateDate">
+                    <th mat-header-cell *matHeaderCellDef>更新时间</th>
+                    <td mat-cell *matCellDef="let row">{{row.updateDate | appDate: 'YYYY-MM-DD HH:mm'}}</td>
+                </ng-container>
+                <!-- 操作项 -->
+                <ng-container matColumnDef="actions" stickyEnd>
+                    <!-- 创建 -->
+                    <th mat-header-cell *matHeaderCellDef>
+                        <button mat-icon-button matTooltip="创建" color="accent" (click)="handleAdd()">
+                            <mat-icon>add_circle_outline</mat-icon>
+                        </button>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <!-- 运行（等待运行） -->
+                        <button mat-icon-button matTooltip="运行" (click)="handleRun(row, 1)" *ngIf="socketService.log[row.id].state == 1">
+                            <mat-icon>play_circle_outline</mat-icon>
+                        </button>
+                        <!-- 运行（运行中） -->
+                        <button mat-icon-button matTooltip="查看控制台日志" (click)="handleRun(row, 2)" *ngIf="socketService.log[row.id].state == 2">
+                            <mat-icon svgIcon="loading"></mat-icon>
+                        </button>
+                        <!-- 运行（成功） -->
+                        <button mat-icon-button matTooltip="查看控制台日志" (click)="handleRun(row, 3)" *ngIf="socketService.log[row.id].state == 3">
+                            <mat-icon class="success-icon">check_circle</mat-icon>
+                        </button>
+                        <!-- 查看 -->
+                        <button mat-icon-button matTooltip="查看" (click)="handleView(row)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <!-- 编辑 -->
+                        <button mat-icon-button matTooltip="编辑" color="primary" (click)="handleEdit(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <!-- 删除 -->
+                        <button mat-icon-button matTooltip="删除" color="accent" (click)="handleDelete(row?.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <!-- 更多 -->
+                        <button mat-icon-button matTooltip="更多" (click)="handleMore(row)">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <!-- 分页 -->
+        <mat-paginator
+            showFirstLastButtons
+            [length]="page.totalElements"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            [pageSize]="page.size"
+            [pageIndex]="page.pageNumber"
+            (page)="changePage($event)">
+        </mat-paginator>
+    </ng-container>
+
+
+    <!-- 结果视图 -->
+    <ng-container *ngIf="viewBtnToggle == 'log'">
+        <div class="table-container log-view">
+            <table mat-table [dataSource]="dataSourceOfLog">
+                <!-- 压测脚本名称 -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>压测脚本名称</th>
+                    <td mat-cell *matCellDef="let row">{{row.jmeter?.name}}</td>
+                </ng-container>
+                <!-- 压测总线程数 -->
+                <ng-container matColumnDef="preCountNumber">
+                    <th mat-header-cell *matHeaderCellDef>压测总线程数</th>
+                    <td mat-cell *matCellDef="let row">{{row.jmeter?.preCountNumber}}</td>
+                </ng-container>
+                <!-- 压测总时长（s） -->
+                <ng-container matColumnDef="preCountTime">
+                    <th mat-header-cell *matHeaderCellDef>压测总时长（s）</th>
+                    <td mat-cell *matCellDef="let row">{{row.jmeter?.preCountTime}}</td>
+                </ng-container>
+                <!-- 压测循环次数 -->
+                <ng-container matColumnDef="loopNum">
+                    <th mat-header-cell *matHeaderCellDef>压测循环次数</th>
+                    <td mat-cell *matCellDef="let row">{{row.jmeter?.loopNum}}</td>
+                </ng-container>
+                <!-- 执行状态 -->
+                <ng-container matColumnDef="jmeterRunStatus">
+                    <th mat-header-cell *matHeaderCellDef>执行状态</th>
+                    <td mat-cell *matCellDef="let row">{{row.jmeterRunStatus | appJmeterState}}</td>
+                </ng-container>
+                <!-- 日志创建时间 -->
+                <ng-container matColumnDef="createDate">
+                    <th mat-header-cell *matHeaderCellDef>结果创建时间</th>
+                    <td mat-cell *matCellDef="let row">{{row.createDate | appDate: 'YYYY-MM-DD HH:mm:ss'}}</td>
+                </ng-container>
+                <!-- 操作项 -->
+                <ng-container matColumnDef="actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                        <!-- 报告 -->
+                        <button mat-icon-button matTooltip="报告" (click)="handleReport(row)" [disabled]="row.jmeterRunStatus != 2">
+                            <mat-icon>open_in_new</mat-icon>
+                        </button>
+                        <!-- 报告 -->
+                        <button mat-icon-button matTooltip="日志" (click)="handleLog(row)">
+                            <mat-icon color="primary" svgIcon="log-search"></mat-icon>
+                        </button>
+                        <!-- 更多 -->
+                        <button mat-icon-button matTooltip="更多" (click)="handleMoreOfLog(row)">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsOfLog;sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsOfLog;"></tr>
+            </table>
+        </div>
+        <!-- 分页 -->
+        <mat-paginator
+            showFirstLastButtons
+            [length]="pageOfLog.totalElements"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            [pageSize]="pageOfLog.size"
+            [pageIndex]="pageOfLog.pageNumber"
+            (page)="changePageOfLog($event)">
+        </mat-paginator>
+    </ng-container>
+
+</div>

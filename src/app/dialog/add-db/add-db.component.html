@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="数据库名称" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="数据库地址" type="text" formControlName="host">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="数据库端口" type="number" formControlName="port">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="数据库用户名" type="text" formControlName="username">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="数据库密码" [type]="!pwVisibility ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="handleEye($event)">
+                <mat-icon>{{pwVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>

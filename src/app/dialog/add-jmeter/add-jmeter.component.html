@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content>
+        <app-file-upload
+            *ngIf="data.type == 'add' && !form.get('url').value"
+            [accept]="'.jmx'"
+            [target]="uploadApi"
+            [multiple]="false"
+            (complete)="onFileComplete($event)">
+        </app-file-upload>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测脚本名称" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测总线程数" type="number" formControlName="thread">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测总时长（s）" type="number" formControlName="time">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="压测循环次数" type="number" formControlName="cycle">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="分布式远程IP地址（可选）" type="text" formControlName="remote">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid" *ngIf="data.type !== 'view'">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>

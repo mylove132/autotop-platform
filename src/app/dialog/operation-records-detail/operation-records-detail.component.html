@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>操作记录详情</h1>
+<div mat-dialog-content>
+  <p class="container">
+    <span class="title">操作记录ID：</span>
+    <span class="desc">{{detail.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">创建时间：</span>
+    <span class="desc">{{detail.createDate | appDate: 'YYYY-MM-DD HH:mm'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">操作模块：</span>
+    <span class="desc">{{detail.operateModule | appOperationModule}}</span>
+  </p>
+  <p class="container">
+    <span class="title">操作类型：</span>
+    <span class="desc">{{detail.operateType | appOperationType}}</span>
+  </p>
+  <p class="container">
+    <span class="title">操作描述：</span>
+    <span class="desc">{{detail.operateDesc}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求者IP：</span>
+    <span class="desc">{{detail.operateIp}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求者用户名：</span>
+    <span class="desc">{{detail.user?.username}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求者用户ID：</span>
+    <span class="desc">{{detail.user?.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求路径：</span>
+    <span class="desc">{{detail.operateUri}}</span>
+  </p>
+  <p class="container">
+    <span class="title">请求参数：</span>
+    <json-editor class="desc" [options]="options" [data]="detail.requestParam | appObject"></json-editor>
+  </p>
+  <p class="container">
+    <span class="title">返回参数：</span>
+    <json-editor class="desc" [options]="options" [data]="detail.responseParam | appObject"></json-editor>
+  </p>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close type="button">关闭</button>
+</div>

@@ -1,0 +1,40 @@
+<div class="placeholder" data-large="assets/images/bg.png">
+  <img src="assets/images/bg_preview.png" class="img-small">
+  <div style="padding-bottom: 66.6%;"></div>
+</div>
+
+
+<app-base [loadStatus]='loadStatus' [loginBase]="true">
+  <div class="contentDom">
+    <div class="content">
+      <div class="login_wrap">
+        <h3>Blingabc运维自动化测试平台</h3>
+        <form [formGroup]="form" (ngSubmit)="login()">
+          <div>
+            <div class="icon_wrap">
+              <img src="assets/images/user.png" alt="" class="icon user">
+              <mat-form-field class="example-full-width">
+                <input type="text" matInput placeholder="请输入用户名" formControlName="userName" (input)="inputChange($event)">
+              </mat-form-field>
+            </div>
+          </div>
+          <div>
+            <div class="icon_wrap">
+              <img src="assets/images/password.png" alt="" class="icon">
+              <mat-form-field class="example-full-width">
+                <input type="password" matInput placeholder="请输入密码" formControlName="password" (input)="inputChange($event)">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <p [ngClass]="{'show': errorStatus}">{{errorTip}}</p>
+
+          <button class="signin-button" type="submit" [disabled]="!form.valid" [ngClass]="{'invalid': !form.valid}">
+            登录
+          </button>
+        </form>
+      </div>
+      <img src="assets/images/logo.png" alt="" class="logo">
+    </div>
+  </div>
+</app-base>

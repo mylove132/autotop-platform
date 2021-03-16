@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>定时任务详情</h1>
+<div mat-dialog-content>
+  <p class="container">
+    <span class="title">定时任务ID：</span>
+    <span class="desc">{{detail.id}}</span>
+  </p>
+  <p class="container">
+    <span class="title">定时任务名称：</span>
+    <span class="desc">{{detail.name}}</span>
+  </p>
+  <p class="container">
+    <span class="title">定时任务运行状态：</span>
+    <span class="desc">{{detail.status | appTimedTaskState}}</span>
+  </p>
+  <p class="container">
+    <span class="title">corntab表达式：</span>
+    <span class="desc">{{detail.cron}}</span>
+  </p>
+  <p class="container">
+    <span class="title">定时任务创建时间：</span>
+    <span class="desc">{{detail.createDate | appDate: 'YYYY-MM-DD HH:mm:ss'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">定时任务更新时间：</span>
+    <span class="desc">{{detail.updateDate | appDate: 'YYYY-MM-DD HH:mm:ss'}}</span>
+  </p>
+  <p class="container">
+    <span class="title">定时任务唯一标示：</span>
+    <span class="desc">{{detail.md5}}</span>
+  </p>
+  <p class="container">
+    <span class="title">钉钉消息通知：</span>
+    <span class="desc">{{detail.isSendMessage}}</span>
+  </p>
+  <p class="container">
+    <span class="title">任务类型：</span>
+    <span class="desc">{{detail.taskType | appTaskType}}</span>
+  </p>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close type="button">关闭</button>
+</div>

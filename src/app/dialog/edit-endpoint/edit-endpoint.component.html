@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <h2 mat-dialog-title>修改endpoint</h2>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="名称" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="地址" type="text" formControlName="address">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">保存</button>
+        <button mat-button mat-dialog-close type="button">关闭</button>
+    </div>
+</form>
